@@ -12,7 +12,11 @@ public class MovieController {
 
     @GetMapping("/list")
     public void movieList(){
-        log.info("movie List!!");
+
     }
 
+    @GetMapping("/register")
+    public void movieRegister(){
+
+    }
 }
