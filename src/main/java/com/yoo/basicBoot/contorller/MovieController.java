@@ -12,7 +12,7 @@ public class MovieController {
 
     @GetMapping("/list")
     public void movieList(){
-        log.info("movie List");
+        log.info("movie List!!");
     }
 
 }
