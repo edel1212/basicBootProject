@@ -1,0 +1,38 @@
+#movieLst{
+    color: black;
+    width: 100%;
+}
+
+#movieLst .backTd{
+    width: 85px;
+    height: 50px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#movieLst .movieTitle{
+    padding-left: 15px;
+}
+
+#movieLst tr{
+    border-bottom: 1px solid #eeeeee;
+    background-color: white;
+    transition: 0.3s all;
+    cursor: pointer;
+    /**js-preloader*/
+}
+
+#movieLst tr:hover{
+    filter: contrast(0.6);
+}
+
+#serchBox{
+    height: 0px;
+    overflow-y: scroll;
+    margin: 0px;
+    background-color: white;
+    position: relative;
+    top: -25px;
+    border: 1px solid #eeeeee;
+    transition: 0.5s all ;
+}
