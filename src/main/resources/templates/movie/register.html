@@ -29,51 +29,47 @@
                   </div>
                   <section id="serchBox">
                     <table id="movieLst">            
-                      <tbody><!--        script            --></tbody>                      
+                      <tbody><!-- script --></tbody>                      
                     </table>
                   </section>                  
                 </div>
-
-                <div class="col-lg-6">
+                <div class="col-lg-12" id="oberviewWrap">
                   <fieldset>
-                    <label for="Name" class="form-label">Your Name</label>
-                    <input type="text" name="Name" class="Name" placeholder="Ex. John Smithee" autocomplete="on" required>
+                    <label for="overview" class="form-label">Overview</label>                                        
+                    <div id="infoSection">
+                      <div id ="posterBox"><img id="posterImg"></div>
+                      <textarea id="overview"></textarea>
+                    </div> 
                   </fieldset>
                 </div>
                 <div class="col-lg-6">
                   <fieldset>
-                    <label for="Number" class="form-label">Your Phone Number</label>
-                    <input type="text" name="Number" class="Number" placeholder="Ex. +xxx xxx xxx" autocomplete="on" required>
+                    <label for="originalTitle" class="form-label">Original Title</label>
+                    <input type="text" name="originalTitle" id="originalTitle" class="originalTitle" readonly required>
                   </fieldset>
                 </div>
                 <div class="col-lg-6">
                   <fieldset>
-                    <label for="chooseGuests" class="form-label">Number Of Guests</label>
-                    <select name="Guests" class="form-select" aria-label="Default select example" id="chooseGuests" onChange="this.form.click()">
-                      <option selected>ex. 3 or 4 or 5</option>
-                      <option type="checkbox" name="option1" value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4+">4+</option>
-                    </select>
+                    <label for="genres" class="form-label">Genres</label>
+                    <input type="text" id="genres" name="genres" class="genres"  autocomplete="on" required readonly>
                   </fieldset>
                 </div>
                 <div class="col-lg-6">
                   <fieldset>
-                    <label for="Number" class="form-label">Check In Date</label>
-                    <input type="date" name="date" class="date" required>
+                    <label for="popularity" class="form-label">Number Of Popularity</label>
+                    <input type="text" id="popularity" name="popularity" class="popularity"  autocomplete="on" required readonly>
                   </fieldset>
                 </div>
+                <div class="col-lg-6">
+                  <fieldset>
+                    <label for="releaseDate" class="form-label">Release Date</label>
+                    <input type="text" name="releaseDate" id="releaseDate" class="releaseDate" readonly required>
+                  </fieldset>
+                </div>               
                 <div class="col-lg-12">
                   <fieldset>
-                    <label for="chooseDestination" class="form-label">Choose Your Destination</label>
-                    <select name="Destination" class="form-select" aria-label="Default select example" id="chooseCategory" onChange="this.form.click()">
-                      <option selected>ex. Switzerland, Lausanne</option>
-                      <option value="Italy, Roma">Italy, Roma</option>
-                      <option value="France, Paris">France, Paris</option>
-                      <option value="Engaland, London">Engaland, London</option>
-                      <option value="Switzerland, Lausanne">Switzerland, Lausanne</option>
-                    </select>
+                    <label for="chooseDestination" class="form-label">Your Think</label>
+                    <textarea id="comment"></textarea>
                   </fieldset>
                 </div>
                 <div class="col-lg-12">
