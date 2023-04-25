@@ -9,6 +9,16 @@ spring:
     password: '123'
   thymeleaf:
     cache: 'false'
+  ######################
+  # JPA setting #
+  ######################
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: 'true'
+    show-sql: 'true'
 
 ##########################################################
 # Detail Show JPA Query                                  #
@@ -19,13 +29,3 @@ decorator:
     p6spy:
       enable-logging: 'true'
 
-######################
-# JPA setting #
-######################
-  jpa:
-    properties:
-      hibernate:
-        format_sql: 'true'
-    hibernate:
-      ddl-auto: update
-    show-sql: 'true'
