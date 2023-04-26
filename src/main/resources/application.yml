@@ -19,7 +19,11 @@ spring:
       hibernate:
         format_sql: 'true'
     show-sql: 'true'
-
+  ######################
+  # jackson setting #
+  ######################
+  jackson:
+    property-naming-strategy: SNAKE_CASE
 ##########################################################
 # Detail Show JPA Query                                  #
 # have to setting - Dev [true] - Prod [false] setting    #
@@ -28,4 +32,7 @@ decorator:
   datasource:
     p6spy:
       enable-logging: 'true'
+
+
+
 
