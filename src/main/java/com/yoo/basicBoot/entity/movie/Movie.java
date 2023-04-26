@@ -1,5 +1,6 @@
 package com.yoo.basicBoot.entity.movie;
 
+import com.yoo.basicBoot.entity.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Movie {
+public class Movie extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mno              ;// 시퀀스
@@ -22,7 +23,7 @@ public class Movie {
     private String backdropPath  ;// 배경이미지
     private String title          ;// 제목
     private String releaseDate   ;// 개봉일
-    private String id             ;// ID
+    private long id               ;// ID
     private String genre          ;// 장르변환값
     private String comment        ;// 코멘트
 }

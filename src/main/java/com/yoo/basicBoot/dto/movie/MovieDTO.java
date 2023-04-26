@@ -20,7 +20,7 @@ public class MovieDTO {
     private String backdropPath  ;// 배경이미지
     private String title          ;// 제목
     private String releaseDate   ;// 개봉일
-    private String id             ;// ID
+    private long id             ;// ID
     private String genre          ;// 장르변환값
     private String comment        ;// 코멘트
 
