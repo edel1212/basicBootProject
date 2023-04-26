@@ -17,7 +17,8 @@ type MovieDetailInfo = {
     release_date?  : string;    // 개봉일
     id?            : number;    // ID
     genre_ids?     : number[];  // 장르ID
-    genre?         : string[];  // 장르변환값
+    genre?         : string;  // 장르변환값
+    comment?       : string;     // 코멘트
 }
 
 type MovieSearchResult = {
@@ -50,6 +51,8 @@ class RegisterMovieImpl implements RegisterMovie{
     
     // 장르목록
     private genreLst :any | undefined;
+    
+    private registerBtn;
 
     constructor(){
         // 영화 검색
@@ -62,6 +65,10 @@ class RegisterMovieImpl implements RegisterMovie{
 
         //장르 값 설정
         this.getGenre();        
+
+        // 등록 버튼
+        this.registerBtn = document.querySelector("#registerBtn");
+        this.registerBtn?.addEventListener("click",this.registerMovie);        
 
     }// constructor
 
@@ -210,7 +217,7 @@ class RegisterMovieImpl implements RegisterMovie{
             title         : obj?.title,
             release_date  : obj?.release_date,
             id            : obj?.id,
-            genre         : genrePare,            
+            genre         : genrePare.join(","),            
         }
 
         // UI 세팅
@@ -243,7 +250,7 @@ class RegisterMovieImpl implements RegisterMovie{
         const posterImg = document.querySelector("#posterImg");
 
         if(genres instanceof HTMLInputElement){
-            genres.value = movieDetailInfo.genre?.join(",") || "장르를 찾을 수 없습니다.";
+            genres.value = movieDetailInfo.genre || "장르를 찾을 수 없습니다.";
         }
         if(popularity instanceof HTMLInputElement){
             popularity.value = movieDetailInfo.popularity || "0.0";
@@ -288,6 +295,31 @@ class RegisterMovieImpl implements RegisterMovie{
         if(oberviewWrap instanceof HTMLElement){
             oberviewWrap.style.display = "none";
         }      
+    }
+
+    // 등록 이벤트
+    private registerMovie = (event : Event)=>{
+
+        const commnet = document.querySelector("#comment");
+        
+        if(!this.movieDetailInfo) return;
+
+        if(commnet instanceof HTMLTextAreaElement){            
+            this.movieDetailInfo!.comment = commnet.value ;
+        }
+
+        fetch("/movie/register",{
+            method : "POST",
+            headers : {
+                "Content-Type": "application/json",
+            },
+            body : JSON.stringify(this.movieDetailInfo)
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            location.href = "/movie/list";
+        })
+        .catch((error) => console.log(error));
     }
 
 }

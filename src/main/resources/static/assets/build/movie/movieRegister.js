@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 class RegisterMovieImpl {
     constructor() {
-        var _a, _b;
+        var _a, _b, _c;
         // 스크롤 옵션
         this.options = {
             root: document.querySelector("#serchBox"),
@@ -107,7 +107,7 @@ class RegisterMovieImpl {
                 title: obj === null || obj === void 0 ? void 0 : obj.title,
                 release_date: obj === null || obj === void 0 ? void 0 : obj.release_date,
                 id: obj === null || obj === void 0 ? void 0 : obj.id,
-                genre: genrePare,
+                genre: genrePare.join(","),
             };
             // UI 세팅
             this.drawMoiveDetail(this.movieDetailInfo);
@@ -143,6 +143,27 @@ class RegisterMovieImpl {
                 oberviewWrap.style.display = "none";
             }
         };
+        // 등록 이벤트
+        this.registerMovie = (event) => {
+            const commnet = document.querySelector("#comment");
+            if (!this.movieDetailInfo)
+                return;
+            if (commnet instanceof HTMLTextAreaElement) {
+                this.movieDetailInfo.comment = commnet.value;
+            }
+            fetch("/movie/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(this.movieDetailInfo)
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                location.href = "/movie/list";
+            })
+                .catch((error) => console.log(error));
+        };
         // 영화 검색
         this.findMovieBtn = document.querySelector("#findMovieBtn");
         (_a = this.findMovieBtn) === null || _a === void 0 ? void 0 : _a.addEventListener("click", this.getMovieInfo);
@@ -151,6 +172,9 @@ class RegisterMovieImpl {
         (_b = this.searchResultElem) === null || _b === void 0 ? void 0 : _b.addEventListener("click", this.getMovieDetailInfo);
         //장르 값 설정
         this.getGenre();
+        // 등록 버튼
+        this.registerBtn = document.querySelector("#registerBtn");
+        (_c = this.registerBtn) === null || _c === void 0 ? void 0 : _c.addEventListener("click", this.registerMovie);
     } // constructor
     // 영화 조회결과 Draw
     drawMoiveList(objArr) {
@@ -203,7 +227,6 @@ class RegisterMovieImpl {
     }
     // 선택된 상세정보를 작성
     drawMoiveDetail(movieDetailInfo) {
-        var _a;
         // 장르
         const genres = document.querySelector("#genres");
         // 인기점수
@@ -217,7 +240,7 @@ class RegisterMovieImpl {
         // 포스터 이미지
         const posterImg = document.querySelector("#posterImg");
         if (genres instanceof HTMLInputElement) {
-            genres.value = ((_a = movieDetailInfo.genre) === null || _a === void 0 ? void 0 : _a.join(",")) || "장르를 찾을 수 없습니다.";
+            genres.value = movieDetailInfo.genre || "장르를 찾을 수 없습니다.";
         }
         if (popularity instanceof HTMLInputElement) {
             popularity.value = movieDetailInfo.popularity || "0.0";
