@@ -1,10 +1,14 @@
 package com.yoo.basicBoot.service.movie;
 
 import com.yoo.basicBoot.dto.movie.MovieDTO;
+import com.yoo.basicBoot.dto.movie.MoviePageRequestDTO;
+import com.yoo.basicBoot.dto.movie.MoviePageResultDTO;
 import com.yoo.basicBoot.entity.movie.Movie;
 
 public interface MovieService {
     Long insertMovie(MovieDTO movieDTO);
+
+    MoviePageResultDTO<MovieDTO, Object[]> getMovieList(MoviePageRequestDTO moviePageRequestDTO);
 
     default Movie dtoToEntity(MovieDTO movieDTO){
         return Movie.builder()
