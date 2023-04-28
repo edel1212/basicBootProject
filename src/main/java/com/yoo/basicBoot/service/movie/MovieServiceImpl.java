@@ -35,7 +35,7 @@ public class MovieServiceImpl implements MovieService{
 
         Page<Object[]> result = movieRepository.getMovieList(pageable);
 
-        Function<Object[], MovieDTO> fn = arr -> this.entityToDto((Movie) arr[0]);
+        Function<Object[], MovieDTO> fn = arr -> this.entityToDto((Movie) arr[0], (Long) arr[1]);
 
         return new MoviePageResultDTO<>(result, fn);
     }

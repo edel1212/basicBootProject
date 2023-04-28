@@ -5,25 +5,18 @@ class MovieList {
         var _a;
         // 영화 목록 페이징 이벤트
         this.pagingEvent = (event) => {
-            var _a, _b, _c;
+            var _a;
             event.preventDefault;
             const target = event.target;
             if (!(target instanceof HTMLElement))
                 return;
-            let targetTyp;
-            if (target.nodeName === 'I') {
-                targetTyp = (_b = (_a = target.parentElement) === null || _a === void 0 ? void 0 : _a.parentElement) === null || _b === void 0 ? void 0 : _b.dataset.page;
-            }
-            else if (target.nodeName === 'LI') {
-                targetTyp = target.dataset.page;
-            }
-            else {
-                targetTyp = (_c = target.parentElement) === null || _c === void 0 ? void 0 : _c.dataset.page;
-            } // if ~ else
+            if (target.nodeName !== 'A')
+                return;
+            const targetTyp = Number((_a = target.parentElement) === null || _a === void 0 ? void 0 : _a.dataset.page);
             const searchParam = {
-                page: Number(targetTyp),
+                page: targetTyp,
             };
-            // dycjd
+            // drawMovieList
             this.getMovieList(searchParam);
         };
         // 검색 목록 조회
@@ -61,7 +54,10 @@ class MovieList {
                             <div class="col-lg-6 align-self-center">
                                 <div class="content">
                                     <span class="info">${item.original_title}</span>
-                                    <h4>${item.title}</h4>
+                                    <h4 class="movieTitle">
+                                        ${item.title}
+                                        <b class="replyCnt">[${item.reply_cnt}]</b>
+                                    </h4>                                    
                                     <div class="row">
                                         <div class="col-6">
                                             <i class="fa fa-clock"></i>
@@ -74,7 +70,7 @@ class MovieList {
                                     </div>
                                     <p class="overviewSection">${item.overview}</p>
                                     <div class="main-button" style="text-align:center">
-                                        <a href="reservation.html">Make a Reservation</a>
+                                        <a data-mno="${item.mno}" class="showMovieDetails" href="javascript:void(0)">Make a Reservation</a>
                                     </div>
                                 </div>
                             </div>
@@ -106,8 +102,40 @@ class MovieList {
         } //if
     }
 }
+class MoiveDetails {
+    constructor() {
+        var _a, _b;
+        // 상세보기 종료
+        this.closeModal = (event) => {
+            const modalSection = document.querySelector("#open-modal");
+            if (modalSection instanceof HTMLElement) {
+                modalSection.style.display = "none";
+            }
+        };
+        // 상세보기
+        this.openModal = (event) => {
+            const target = event.target;
+            if (!(target instanceof HTMLElement))
+                return;
+            if (target.nodeName !== 'A' && !target.classList.contains("showMovieDetails"))
+                return;
+            console.log(target.dataset.mno);
+            const modalSection = document.querySelector("#open-modal");
+            if (modalSection instanceof HTMLElement) {
+                modalSection.style.display = "flex";
+            }
+        };
+        // 상세보기 Event
+        this.openMoiveDetial = document.querySelector("#listWrap");
+        (_a = this.openMoiveDetial) === null || _a === void 0 ? void 0 : _a.addEventListener("click", this.openModal);
+        // 상세보기 닫기 Event
+        this.closeMoiveDetial = document.querySelector("#modalCloseBtn");
+        (_b = this.closeMoiveDetial) === null || _b === void 0 ? void 0 : _b.addEventListener("click", this.closeModal);
+    }
+}
 // init
 (function () {
     const movieList = new MovieList();
+    const movieDetails = new MoiveDetails();
 })();
 //# sourceMappingURL=movieList.js.map

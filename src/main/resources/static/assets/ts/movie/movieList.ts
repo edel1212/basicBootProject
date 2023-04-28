@@ -59,7 +59,10 @@ class MovieList{
                             <div class="col-lg-6 align-self-center">
                                 <div class="content">
                                     <span class="info">${item.original_title}</span>
-                                    <h4>${item.title}</h4>
+                                    <h4 class="movieTitle">
+                                        ${item.title}
+                                        <b class="replyCnt">[${item.reply_cnt}]</b>
+                                    </h4>                                    
                                     <div class="row">
                                         <div class="col-6">
                                             <i class="fa fa-clock"></i>
@@ -72,7 +75,7 @@ class MovieList{
                                     </div>
                                     <p class="overviewSection">${item.overview}</p>
                                     <div class="main-button" style="text-align:center">
-                                        <a href="reservation.html">Make a Reservation</a>
+                                        <a data-mno="${item.mno}" class="showMovieDetails" href="javascript:void(0)">Make a Reservation</a>
                                     </div>
                                 </div>
                             </div>
@@ -111,21 +114,60 @@ class MovieList{
         event.preventDefault;
         const target = event.target;
         if( !(target instanceof HTMLElement) ) return;
+        
+        if (target.nodeName !=='A') return;
 
-        let targetTyp;
-        if (target.nodeName ==='I'){
-            targetTyp = target.parentElement?.parentElement?.dataset.page;            
-        } else if(target.nodeName ==='LI'){
-            targetTyp = target.dataset.page;            
-        } else {
-            targetTyp = target.parentElement?.dataset.page;            
-        } // if ~ else
-
+        const targetTyp:number = Number(target.parentElement?.dataset.page);            
+        
         const searchParam: SearchParam = {
-            page : Number(targetTyp),
+            page : targetTyp,
         }
-        // dycjd
+        // drawMovieList
         this.getMovieList(searchParam);
+    }
+
+    //
+
+}
+
+class MoiveDetails{
+    // 상세보기 버튼
+    private openMoiveDetial;
+
+    // 상세보기 닫기버튼
+    private closeMoiveDetial;
+
+    constructor(){
+        // 상세보기 Event
+        this.openMoiveDetial = document.querySelector("#listWrap");
+        this.openMoiveDetial?.addEventListener("click",this.openModal);
+        
+        // 상세보기 닫기 Event
+        this.closeMoiveDetial = document.querySelector("#modalCloseBtn");
+        this.closeMoiveDetial?.addEventListener("click",this.closeModal);
+    }   
+
+    // 상세보기 종료
+    private closeModal = (event : Event)=>{
+        const modalSection = document.querySelector("#open-modal");
+        if(modalSection instanceof HTMLElement){
+            modalSection.style.display = "none";
+        }
+    }
+
+    // 상세보기
+    private openModal = (event: Event)=>{
+        const target = event.target;
+        if(!(target instanceof HTMLElement)) return;
+
+        if(target.nodeName !== 'A' && !target.classList.contains("showMovieDetails") ) return;
+
+        console.log(target.dataset.mno);
+        const modalSection = document.querySelector("#open-modal");
+        if(modalSection instanceof HTMLElement){
+            modalSection.style.display = "flex";
+        }
+        
     }
 
 }
@@ -133,4 +175,5 @@ class MovieList{
 // init
 (function(){
     const movieList = new MovieList();
+    const movieDetails = new MoiveDetails();
 })();

@@ -17,8 +17,10 @@ type MovieDetailInfo = {
     release_date?  : string;    // 개봉일
     id?            : number;    // ID
     genre_ids?     : number[];  // 장르ID
-    genre?         : string;  // 장르변환값
-    comment?       : string;     // 코멘트
+    genre?         : string;    // 장르변환값
+    comment?       : string;    // 코멘트
+    mno?           : number;    // 글번호
+    reply_cnt?      : number;    // 댓글개수
 }
 
 type MovieSearchResult = {

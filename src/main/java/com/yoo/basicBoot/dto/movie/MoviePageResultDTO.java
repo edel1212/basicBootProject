@@ -29,7 +29,7 @@ public class MoviePageResultDTO<DTO, EN> {
 
     // 생성자
     public MoviePageResultDTO(Page<EN> result, Function<EN, DTO> fn){
-        this.dtoList = (List<DTO>) result.stream().collect(Collectors.toList());
+        this.dtoList =  result.stream().map(fn).collect(Collectors.toList());
 
         this.totalPage = result.getTotalPages();
 

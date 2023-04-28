@@ -4,6 +4,7 @@ import com.yoo.basicBoot.dto.movie.MovieDTO;
 import com.yoo.basicBoot.dto.movie.MoviePageRequestDTO;
 import com.yoo.basicBoot.dto.movie.MoviePageResultDTO;
 import com.yoo.basicBoot.entity.movie.Movie;
+import com.yoo.basicBoot.entity.movie.Reply;
 
 public interface MovieService {
     Long insertMovie(MovieDTO movieDTO);
@@ -43,5 +44,26 @@ public interface MovieService {
                 .regDate(movie.getRegDate())
                 .build();
     }
+
+    default MovieDTO entityToDto(Movie movie, Long reply){
+        return MovieDTO.builder()
+                .mno(movie.getMno())
+                .overview(movie.getOverview())
+                .title(movie.getTitle())
+                .genre(movie.getGenre())
+                .comment(movie.getComment())
+                .releaseDate(movie.getReleaseDate())
+                .backdropPath(movie.getBackdropPath())
+                .originalTitle(movie.getOriginalTitle())
+                .id(movie.getId())
+                .popularity(movie.getPopularity())
+                .posterPath(movie.getPosterPath())
+                .replyCnt(reply.intValue())
+                .modDate(movie.getModDate())
+                .regDate(movie.getRegDate())
+                .build();
+    }
+
+
 
 }
