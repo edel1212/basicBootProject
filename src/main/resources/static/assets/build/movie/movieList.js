@@ -2,17 +2,15 @@
 // 영화 목록
 class MovieList {
     constructor() {
-        var _a;
         // 영화 목록 페이징 이벤트
         this.pagingEvent = (event) => {
-            var _a;
             event.preventDefault;
             const target = event.target;
             if (!(target instanceof HTMLElement))
                 return;
             if (target.nodeName !== 'A')
                 return;
-            const targetTyp = Number((_a = target.parentElement) === null || _a === void 0 ? void 0 : _a.dataset.page);
+            const targetTyp = Number(target.parentElement?.dataset.page);
             const searchParam = {
                 page: targetTyp,
             };
@@ -23,7 +21,7 @@ class MovieList {
         this.getMovieList({ page: 1 });
         // 영화목록 버튼 Event 추가
         this.moviePageNation = document.querySelector("#moviePageNation");
-        (_a = this.moviePageNation) === null || _a === void 0 ? void 0 : _a.addEventListener("click", this.pagingEvent);
+        this.moviePageNation?.addEventListener("click", this.pagingEvent);
     }
     // 영화 목록
     getMovieList(searchParam) {
@@ -48,7 +46,7 @@ class MovieList {
                     <div class="item">
                         <div class="row">
                             <div class="col-lg-6">
-                                <div class="image moiveImg" style="background: url(https://image.tmdb.org/t/p/original${item.poster_path}) center">                                    
+                                <div class="image movieImg" style="background: url(https://image.tmdb.org/t/p/original${item.poster_path}) center">                                    
                                 </div>
                             </div>
                             <div class="col-lg-6 align-self-center">
@@ -104,13 +102,12 @@ class MovieList {
 }
 class MoiveDetails {
     constructor() {
-        var _a, _b;
         // 상세보기 종료
         this.closeModal = (event) => {
             const modalSection = document.querySelector("#open-modal");
-            if (modalSection instanceof HTMLElement) {
-                modalSection.style.display = "none";
-            }
+            if (!(modalSection instanceof HTMLElement))
+                return;
+            this.modalHide(modalSection);
         };
         // 상세보기
         this.openModal = (event) => {
@@ -119,18 +116,92 @@ class MoiveDetails {
                 return;
             if (target.nodeName !== 'A' && !target.classList.contains("showMovieDetails"))
                 return;
-            console.log(target.dataset.mno);
             const modalSection = document.querySelector("#open-modal");
-            if (modalSection instanceof HTMLElement) {
-                modalSection.style.display = "flex";
-            }
+            if (!(modalSection instanceof HTMLElement))
+                return;
+            // Modal Open
+            this.modalShow(modalSection);
+            const mno = target.dataset.mno;
+            // 상세정보
+            fetch(`/movie/${mno}`)
+                .then(res => res.json())
+                .then(result => {
+                console.log(result);
+                // UI 작성            
+                this.drawMovieDtail(result);
+            }).catch(error => {
+                console.log(error);
+            });
+            // 댓글 목록
+            if (mno)
+                this.getReplyList(mno);
         };
+        // 댓글 목록
+        this.getReplyList = (mno) => {
+            fetch(`/movie/replies/${mno}`)
+                .then(res => res.json())
+                .then(result => {
+                console.log(result);
+                // UI 작성            
+                this.drawReplyList(result);
+            }).catch(error => {
+                console.log(error);
+            });
+        };
+        // 댓글 Draw
+        this.drawReplyList = (movieDetailInfo) => {
+            const replySection = document.querySelector("#replySection");
+            if (!(replySection instanceof HTMLElement))
+                return;
+            let HTMLCode = "";
+            for (let item of movieDetailInfo) {
+                HTMLCode += `<div class="replies">
+                                <div class="infoImg">
+                                <span style="width:50px;height: 50px;background-color: rgb(113, 221, 182);display: block;border-radius: 50%;"></span>
+                                </div>
+                                <div class="replyInfo">
+                                <strong>${item.replier}</strong>
+                                <span>${item.text}</span>
+                                <span>${item.mod_date}</span>    
+                                </div>
+                            </div> `;
+            } //for
+            replySection.innerHTML = HTMLCode;
+        };
+        // 영화 상세정보 Draw
+        this.drawMovieDtail = (movieDetailInfo) => {
+            // poster path
+            const poster = document.querySelector("#open-modal #modalMovieImg");
+            // originalTitle
+            const originalTitle = document.querySelector("#open-modal #originalTitle");
+            // movieNm
+            const movieNm = document.querySelector("#open-modal #movieNm");
+            // releaseDate
+            const releaseDate = document.querySelector("#open-modal #releaseDate");
+            // popularity
+            const popularity = document.querySelector("#open-modal #popularity");
+            // writerComment
+            const writerComment = document.querySelector("#open-modal #writerComment");
+            if (!(poster instanceof HTMLElement) || !(originalTitle instanceof HTMLElement) || !(movieNm instanceof HTMLElement)
+                || !(releaseDate instanceof HTMLElement) || !(popularity instanceof HTMLElement) || !(writerComment instanceof HTMLElement))
+                return;
+            poster.style.backgroundImage = `url(https://image.tmdb.org/t/p/original/${movieDetailInfo.backdrop_path})`;
+            poster.style.backgroundPosition = "center";
+            originalTitle.innerHTML = `${movieDetailInfo.original_title}`;
+            movieNm.innerHTML = `${movieDetailInfo.title}`;
+            releaseDate.innerHTML = `${movieDetailInfo.release_date}`;
+            popularity.innerHTML = `${movieDetailInfo.popularity}`;
+            writerComment.innerHTML = `${movieDetailInfo.comment}`;
+        };
+        // Modal Control Event
+        this.modalHide = (modalSection) => modalSection.style.display = "none";
+        this.modalShow = (modalSection) => modalSection.style.display = "flex";
         // 상세보기 Event
         this.openMoiveDetial = document.querySelector("#listWrap");
-        (_a = this.openMoiveDetial) === null || _a === void 0 ? void 0 : _a.addEventListener("click", this.openModal);
+        this.openMoiveDetial?.addEventListener("click", this.openModal);
         // 상세보기 닫기 Event
         this.closeMoiveDetial = document.querySelector("#modalCloseBtn");
-        (_b = this.closeMoiveDetial) === null || _b === void 0 ? void 0 : _b.addEventListener("click", this.closeModal);
+        this.closeMoiveDetial?.addEventListener("click", this.closeModal);
     }
 }
 // init

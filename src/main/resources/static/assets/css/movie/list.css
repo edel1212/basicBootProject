@@ -7,7 +7,7 @@
     overflow: hidden;  
 }
 
-.moiveImg{
+#modalMovieImg, .movieImg{
     height: 100%;
     background-repeat: no-repeat !important;
     background-size: cover !important;
@@ -97,4 +97,3 @@
     font-weight: bold;
     font-size: 15px;
 }
-

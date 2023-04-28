@@ -4,5 +4,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface SearchMovieRepository {
-    public Page<Object[]> getMovieList(Pageable pageable);
+    Page<Object[]> getMovieList(Pageable pageable);
 }

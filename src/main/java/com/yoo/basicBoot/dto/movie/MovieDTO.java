@@ -23,7 +23,7 @@ public class MovieDTO {
     private long id               ;// ID
     private String genre          ;// 장르변환값
     private String comment        ;// 코멘트
-    private int replyCnt         ;// 댓글 개수
+    private int replyCnt          ;// 댓글 개수
 
     //BaseEntity에 추가된 변수
     private LocalDateTime regDate;

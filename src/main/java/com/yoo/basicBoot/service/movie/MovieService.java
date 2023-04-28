@@ -7,9 +7,14 @@ import com.yoo.basicBoot.entity.movie.Movie;
 import com.yoo.basicBoot.entity.movie.Reply;
 
 public interface MovieService {
+    //등록
     Long insertMovie(MovieDTO movieDTO);
 
+    //목록
     MoviePageResultDTO<MovieDTO, Object[]> getMovieList(MoviePageRequestDTO moviePageRequestDTO);
+
+    //단건
+    MovieDTO getMovieDetail(Long mno);
 
     default Movie dtoToEntity(MovieDTO movieDTO){
         return Movie.builder()

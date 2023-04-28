@@ -1,4 +1,3 @@
-
 type MoviePagingObject = {
     dto_list : MovieDetailInfo[];
     next : boolean;
@@ -11,6 +10,14 @@ type MoviePagingObject = {
 
 type SearchParam = {
     page : number;
+}
+
+type ReplyObject = {
+    rno     :number;    // 시퀀스
+    mno     :number;    // 영화번호
+    text    :string;    // 댓글
+    replier :string;    // 작성자
+    mod_date :string     // 수정일자
 }
 
 // 영화 목록
@@ -53,7 +60,7 @@ class MovieList{
                     <div class="item">
                         <div class="row">
                             <div class="col-lg-6">
-                                <div class="image moiveImg" style="background: url(https://image.tmdb.org/t/p/original${item.poster_path}) center">                                    
+                                <div class="image movieImg" style="background: url(https://image.tmdb.org/t/p/original${item.poster_path}) center">                                    
                                 </div>
                             </div>
                             <div class="col-lg-6 align-self-center">
@@ -150,9 +157,8 @@ class MoiveDetails{
     // 상세보기 종료
     private closeModal = (event : Event)=>{
         const modalSection = document.querySelector("#open-modal");
-        if(modalSection instanceof HTMLElement){
-            modalSection.style.display = "none";
-        }
+        if(!(modalSection instanceof HTMLElement)) return;
+        this.modalHide(modalSection);
     }
 
     // 상세보기
@@ -161,15 +167,97 @@ class MoiveDetails{
         if(!(target instanceof HTMLElement)) return;
 
         if(target.nodeName !== 'A' && !target.classList.contains("showMovieDetails") ) return;
-
-        console.log(target.dataset.mno);
+        
         const modalSection = document.querySelector("#open-modal");
-        if(modalSection instanceof HTMLElement){
-            modalSection.style.display = "flex";
-        }
+        if( !(modalSection instanceof HTMLElement)) return;
+
+        // Modal Open
+        this.modalShow(modalSection);
+
+        const mno = target.dataset.mno;
+
+        // 상세정보
+        fetch(`/movie/${mno}`)
+        .then(res => res.json())
+        .then(result => {                             
+            console.log(result); 
+            // UI 작성            
+            this.drawMovieDtail(result);            
+        }).catch(error => {
+            console.log(error);
+        })      
+
+        // 댓글 목록
+        if(mno) this.getReplyList(mno);
         
     }
 
+    // 댓글 목록
+    private getReplyList = (mno : string)=>{
+        fetch(`/movie/replies/${mno}`)
+        .then(res => res.json())
+        .then(result => {                             
+            console.log(result); 
+            // UI 작성            
+            this.drawReplyList(result);            
+        }).catch(error => {
+            console.log(error);
+        }) 
+    }
+
+    // 댓글 Draw
+    private drawReplyList =(movieDetailInfo:ReplyObject[])=>{
+        const replySection = document.querySelector("#replySection");
+        if(!(replySection instanceof HTMLElement)) return;
+        let HTMLCode = "";
+        for(let item of movieDetailInfo){
+            HTMLCode += `<div class="replies">
+                                <div class="infoImg">
+                                <span style="width:50px;height: 50px;background-color: rgb(113, 221, 182);display: block;border-radius: 50%;"></span>
+                                </div>
+                                <div class="replyInfo">
+                                <strong>${item.replier}</strong>
+                                <span>${item.text}</span>
+                                <span>${item.mod_date}</span>    
+                                </div>
+                            </div> `;            
+        }//for
+        replySection.innerHTML = HTMLCode;
+    }
+
+    // 영화 상세정보 Draw
+    private drawMovieDtail =(movieDetailInfo:MovieDetailInfo)=>{
+        // poster path
+        const poster = document.querySelector("#open-modal #modalMovieImg");
+        // originalTitle
+        const originalTitle = document.querySelector("#open-modal #originalTitle");
+        // movieNm
+        const movieNm = document.querySelector("#open-modal #movieNm");
+        // releaseDate
+        const releaseDate = document.querySelector("#open-modal #releaseDate");
+        // popularity
+        const popularity = document.querySelector("#open-modal #popularity");
+        // writerComment
+        const writerComment = document.querySelector("#open-modal #writerComment");
+        
+        if( !(poster instanceof HTMLElement)  || !(originalTitle instanceof HTMLElement) || !(movieNm instanceof HTMLElement) 
+          || !(releaseDate instanceof HTMLElement)  || !(popularity instanceof HTMLElement) || !(writerComment instanceof HTMLElement)
+         ) return;
+
+         poster.style.backgroundImage = `url(https://image.tmdb.org/t/p/original/${movieDetailInfo.backdrop_path})`
+         poster.style.backgroundPosition = "center";
+         originalTitle.innerHTML = `${movieDetailInfo.original_title}`
+         movieNm.innerHTML = `${movieDetailInfo.title}`;
+         releaseDate.innerHTML = `${movieDetailInfo.release_date}`;
+         popularity.innerHTML = `${movieDetailInfo.popularity}`;
+         writerComment.innerHTML = `${movieDetailInfo.comment}`;
+    }   
+
+    
+
+    // Modal Control Event
+    private modalHide = (modalSection : HTMLElement)=> modalSection.style.display = "none";
+    private modalShow = (modalSection : HTMLElement)=> modalSection.style.display = "flex";
 }
 
 // init

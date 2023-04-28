@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.stream.IntStream;
+
 @SpringBootTest
 @Log4j2
 public class ReplyRepositoryTests {
@@ -17,12 +19,14 @@ public class ReplyRepositoryTests {
 
     @Test
     public void insertReply(){
-        Reply reply = Reply.builder()
-                .replier("edel1212!!!")
-                .text("두번째 댓글입니다!!")
-                .movie(Movie.builder().mno(4L).build())
-                .build();
-        replyRepository.save(reply);
-        log.info(reply.getRno());
+        IntStream.rangeClosed(1, 20).forEach(item->{
+            Reply reply = Reply.builder()
+                    .replier("edel-"+item)
+                    .text(item+"번째 댓글입니다!!")
+                    .movie(Movie.builder().mno(205L).build())
+                    .build();
+            replyRepository.save(reply);
+            log.info(reply.getRno());
+        });
     }
 }
