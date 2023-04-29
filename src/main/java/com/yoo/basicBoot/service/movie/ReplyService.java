@@ -10,6 +10,8 @@ public interface ReplyService {
 
     List<ReplyDTO> getReplyList(Long mno);
 
+    Long insertReply(ReplyDTO replyDTO);
+
     default ReplyDTO entityToDto(Reply reply){
         return ReplyDTO.builder()
                 .rno(reply.getRno())

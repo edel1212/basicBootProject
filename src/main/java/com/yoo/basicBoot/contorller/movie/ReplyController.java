@@ -4,10 +4,7 @@ import com.yoo.basicBoot.dto.movie.ReplyDTO;
 import com.yoo.basicBoot.service.movie.ReplyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,5 +18,11 @@ public class ReplyController {
     @GetMapping("/{mno}")
     public ResponseEntity<List<ReplyDTO>> getReplyList(@PathVariable Long mno){
         return ResponseEntity.ok(replyService.getReplyList(mno));
+    }
+
+    @PostMapping
+    public ResponseEntity<Long> insetReply(@RequestBody ReplyDTO replyDTO){
+        Long insertReply = replyService.insertReply(replyDTO);
+        return ResponseEntity.ok(insertReply);
     }
 }

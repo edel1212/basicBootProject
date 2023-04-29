@@ -109,6 +109,31 @@ class MoiveDetails {
                 return;
             this.modalHide(modalSection);
         };
+        // 영화 상세정보 Draw
+        this.drawMovieDtail = (movieDetailInfo) => {
+            // poster path
+            const poster = document.querySelector("#open-modal #modalMovieImg");
+            // originalTitle
+            const originalTitle = document.querySelector("#open-modal #originalTitle");
+            // movieNm
+            const movieNm = document.querySelector("#open-modal #movieNm");
+            // releaseDate
+            const releaseDate = document.querySelector("#open-modal #releaseDate");
+            // popularity
+            const popularity = document.querySelector("#open-modal #popularity");
+            // writerComment
+            const writerComment = document.querySelector("#open-modal #writerComment");
+            if (!(poster instanceof HTMLElement) || !(originalTitle instanceof HTMLElement) || !(movieNm instanceof HTMLElement)
+                || !(releaseDate instanceof HTMLElement) || !(popularity instanceof HTMLElement) || !(writerComment instanceof HTMLElement))
+                return;
+            poster.style.backgroundImage = `url(https://image.tmdb.org/t/p/original/${movieDetailInfo.backdrop_path})`;
+            poster.style.backgroundPosition = "center";
+            originalTitle.innerHTML = `${movieDetailInfo.original_title}`;
+            movieNm.innerHTML = `${movieDetailInfo.title}`;
+            releaseDate.innerHTML = `${movieDetailInfo.release_date}`;
+            popularity.innerHTML = `${movieDetailInfo.popularity}`;
+            writerComment.innerHTML = `${movieDetailInfo.comment}`;
+        };
         // 상세보기
         this.openModal = (event) => {
             const target = event.target;
@@ -126,7 +151,8 @@ class MoiveDetails {
             fetch(`/movie/${mno}`)
                 .then(res => res.json())
                 .then(result => {
-                console.log(result);
+                // 상세정보 주입
+                this.movieDetailInfo = result;
                 // UI 작성            
                 this.drawMovieDtail(result);
             }).catch(error => {
@@ -134,8 +160,29 @@ class MoiveDetails {
             });
             // 댓글 목록
             if (mno)
-                this.getReplyList(mno);
+                this.reply.getReplyList(mno);
         };
+        // Modal Control Event
+        this.modalHide = (modalSection) => modalSection.style.display = "none";
+        this.modalShow = (modalSection) => modalSection.style.display = "flex";
+        // 상세정보 초기화
+        this.movieDetailInfo = {};
+        // 상세보기 Event
+        this.openMoiveDetial = document.querySelector("#listWrap");
+        this.openMoiveDetial?.addEventListener("click", this.openModal);
+        // 상세보기 닫기 Event
+        this.closeMoiveDetial = document.querySelector("#modalCloseBtn");
+        this.closeMoiveDetial?.addEventListener("click", this.closeModal);
+        // 댓글
+        this.reply = new Reply();
+        this.writeBtn = document.querySelector("#writeBtn");
+        this.writeBtn?.addEventListener("click", (e) => {
+            this.reply.insertReply(this.movieDetailInfo);
+        });
+    }
+}
+class Reply {
+    constructor() {
         // 댓글 목록
         this.getReplyList = (mno) => {
             fetch(`/movie/replies/${mno}`)
@@ -168,40 +215,32 @@ class MoiveDetails {
             } //for
             replySection.innerHTML = HTMLCode;
         };
-        // 영화 상세정보 Draw
-        this.drawMovieDtail = (movieDetailInfo) => {
-            // poster path
-            const poster = document.querySelector("#open-modal #modalMovieImg");
-            // originalTitle
-            const originalTitle = document.querySelector("#open-modal #originalTitle");
-            // movieNm
-            const movieNm = document.querySelector("#open-modal #movieNm");
-            // releaseDate
-            const releaseDate = document.querySelector("#open-modal #releaseDate");
-            // popularity
-            const popularity = document.querySelector("#open-modal #popularity");
-            // writerComment
-            const writerComment = document.querySelector("#open-modal #writerComment");
-            if (!(poster instanceof HTMLElement) || !(originalTitle instanceof HTMLElement) || !(movieNm instanceof HTMLElement)
-                || !(releaseDate instanceof HTMLElement) || !(popularity instanceof HTMLElement) || !(writerComment instanceof HTMLElement))
-                return;
-            poster.style.backgroundImage = `url(https://image.tmdb.org/t/p/original/${movieDetailInfo.backdrop_path})`;
-            poster.style.backgroundPosition = "center";
-            originalTitle.innerHTML = `${movieDetailInfo.original_title}`;
-            movieNm.innerHTML = `${movieDetailInfo.title}`;
-            releaseDate.innerHTML = `${movieDetailInfo.release_date}`;
-            popularity.innerHTML = `${movieDetailInfo.popularity}`;
-            writerComment.innerHTML = `${movieDetailInfo.comment}`;
+        this.insertReply = (movieDetailInfo) => {
+            let replyText = "";
+            const replyTextBox = document.querySelector("#writeCommentBtn");
+            if (replyTextBox instanceof HTMLInputElement) {
+                replyText = replyTextBox.value;
+            } //if
+            const replyObject = {
+                mno: Number(movieDetailInfo.mno),
+                replier: "회원가입 기능 추가후 수정",
+                text: replyText
+            };
+            fetch(`/movie/replies`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(replyObject)
+            })
+                .then(res => res.json())
+                .then(result => {
+                // UI 작성            
+                this.getReplyList(result);
+            }).catch(error => {
+                console.log(error);
+            });
         };
-        // Modal Control Event
-        this.modalHide = (modalSection) => modalSection.style.display = "none";
-        this.modalShow = (modalSection) => modalSection.style.display = "flex";
-        // 상세보기 Event
-        this.openMoiveDetial = document.querySelector("#listWrap");
-        this.openMoiveDetial?.addEventListener("click", this.openModal);
-        // 상세보기 닫기 Event
-        this.closeMoiveDetial = document.querySelector("#modalCloseBtn");
-        this.closeMoiveDetial?.addEventListener("click", this.closeModal);
     }
 }
 // init
