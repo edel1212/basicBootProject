@@ -20,7 +20,7 @@ type MovieDetailInfo = {
     genre?         : string;    // 장르변환값
     comment?       : string;    // 코멘트
     mno?           : number;    // 글번호
-    reply_cnt?      : number;    // 댓글개수
+    reply_cnt?     : number;    // 댓글개수
 }
 
 type MovieSearchResult = {
