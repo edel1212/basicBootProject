@@ -106,7 +106,7 @@ class MovieList{
             }
             // 페이지 번호
             for(let i of moviePagingObject.page_list){                
-                innerHTML += `<li data-page="${i}" class=${i === moviePagingObject.page ?  "active" : ""} ><a href="#">${i}</a></li>`
+                innerHTML += `<li data-page="${i}" class=${i === moviePagingObject.page ?  "active" : ""} ><a class="pageNumBtn" href="#">${i}</a></li>`
             }
             // 다음
             if(moviePagingObject.next){
