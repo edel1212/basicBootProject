@@ -14,7 +14,8 @@ class MovieList {
             const searchParam = {
                 page: targetTyp,
                 type: this.searchParam.type,
-                search_text: this.searchParam.search_text
+                search_text: this.searchParam.search_text,
+                sortType: this.searchParam.sortType
             };
             // drawMovieList
             this.getMovieList(searchParam);
@@ -60,7 +61,7 @@ class MovieList {
             url += `&searchText=${searchParam.search_text}`;
         }
         if (searchParam.sortType) {
-            url += `&searchText=${searchParam.sortType}`;
+            url += `&sortType=${searchParam.sortType}`;
         }
         fetch(url)
             .then(res => res.json())
