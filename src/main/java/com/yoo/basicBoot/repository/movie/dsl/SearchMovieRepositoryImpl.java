@@ -1,8 +1,10 @@
 package com.yoo.basicBoot.repository.movie.dsl;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import com.yoo.basicBoot.entity.movie.Movie;
@@ -24,7 +26,7 @@ public class SearchMovieRepositoryImpl extends QuerydslRepositorySupport impleme
     }
 
     @Override
-    public Page<Object[]> getMovieList(Pageable pageable) {
+    public Page<Object[]> getMovieList(String type,String searchText, Pageable pageable) {
 
         // Q도메인 생성
         QMovie qMovie = QMovie.movie;
@@ -41,16 +43,40 @@ public class SearchMovieRepositoryImpl extends QuerydslRepositorySupport impleme
 
         // 정렬
         Sort sort = pageable.getSort();
-        sort.stream().forEach(order->{
+
+        sort.stream().distinct().forEach(order->{
             // 정렬 대상 Key
             String prop = order.getProperty();
-            // 정렬 방법
-            Order direction = order.isAscending() ? Order.ASC : Order.DESC;
-            // tuple 정렬시 필요한 PathBuilder 생성
-            PathBuilder<Movie> pathbuilder = new PathBuilder<Movie>(Movie.class,"movie");
-            tuple.orderBy(new OrderSpecifier(direction, pathbuilder.get(prop)) );
+            if("replyCnt".equals(prop)){
+                tuple.orderBy(new OrderSpecifier<>(Order.DESC, qReply.count()));
+            } else {
+                // 정렬 방법
+                Order direction = order.isAscending() ? Order.ASC : Order.DESC;
+                // tuple 정렬시 필요한 PathBuilder 생성
+                PathBuilder<Movie> pathbuilder = new PathBuilder<Movie>(Movie.class,"movie");
+                tuple.orderBy(new OrderSpecifier(direction, pathbuilder.get(prop)) );
+            }
         });
+        tuple.orderBy(new OrderSpecifier<>(Order.DESC, qMovie.mno));
 
+        // 조회 조건 추가
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        if(type != null ){
+            switch (type){
+                case "g" :
+                    booleanBuilder.or(qMovie.genre.contains(searchText));
+                    break;
+                case "w" : //TODO : 로그인 기능 구현 후 처리 필요
+                    booleanBuilder.or(qMovie.backdropPath.contains(searchText));
+                    break;
+                case "t" :
+                    booleanBuilder
+                            .or(qMovie.title.contains(searchText))
+                            .or(qMovie.originalTitle.contains(searchText));
+                    break;
+            }// switch
+        }// if
+        tuple.where(booleanBuilder);
 
         tuple.groupBy(qMovie);
 

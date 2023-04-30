@@ -16,14 +16,19 @@ public class MoviePageRequestDTO {
     private int page;
     private int size;
 
+    private String type;
+
+    private String sortType;
+
+    private String searchText;
+
     public MoviePageRequestDTO(){
         this.page = 1;
         this.size = 10;
+        this.searchText = "";
     }
 
-    public Pageable
-
-    getPageable(Sort sort){
+    public Pageable getPageable(Sort sort){
         return PageRequest.of(this.page -1, this.size , sort);
     }
 

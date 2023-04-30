@@ -13,19 +13,56 @@ class MovieList {
             const targetTyp = Number(target.parentElement?.dataset.page);
             const searchParam = {
                 page: targetTyp,
+                type: this.searchParam.type,
+                search_text: this.searchParam.search_text
             };
             // drawMovieList
             this.getMovieList(searchParam);
         };
+        // 영화 조회 조건 이벤트
+        this.movieSearch = () => {
+            // 정렬 조건
+            const sortType = document.querySelector("select[name='sortType']");
+            if (sortType instanceof HTMLSelectElement) {
+                this.searchParam.sortType = sortType.value;
+            }
+            // 조회 타입
+            const moiveType = document.querySelector("select[name='moiveType']");
+            if (moiveType instanceof HTMLSelectElement) {
+                this.searchParam.type = moiveType.value;
+            }
+            // 조회 조건
+            const movieSearchText = document.querySelector("#searchInput");
+            if (movieSearchText instanceof HTMLInputElement) {
+                this.searchParam.search_text = movieSearchText.value;
+            }
+            // 조회
+            this.getMovieList(this.searchParam);
+        };
+        // 조회조건 초기화
+        this.searchParam = { page: 1 };
         // 검색 목록 조회
-        this.getMovieList({ page: 1 });
+        this.getMovieList(this.searchParam);
         // 영화목록 버튼 Event 추가
         this.moviePageNation = document.querySelector("#moviePageNation");
         this.moviePageNation?.addEventListener("click", this.pagingEvent);
+        // 조회버튼 Event 추가
+        this.searchBtn = document.querySelector("#searchBtn");
+        this.searchBtn?.addEventListener("click", this.movieSearch);
     }
     // 영화 목록
     getMovieList(searchParam) {
-        fetch(`/movie/?page=${searchParam.page}`)
+        let url = `/movie/?page=${searchParam.page}`;
+        if (searchParam.type) {
+            url += `&type=${searchParam.type}`;
+        }
+        if (searchParam.search_text) {
+            url += `&searchText=${searchParam.search_text}`;
+        }
+        if (searchParam.sortType) {
+            url += `&searchText=${searchParam.sortType}`;
+        }
+        fetch(url)
             .then(res => res.json())
             .then(result => {
             console.log(result);
