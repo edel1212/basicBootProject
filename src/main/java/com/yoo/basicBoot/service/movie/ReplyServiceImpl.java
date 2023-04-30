@@ -27,4 +27,10 @@ public class ReplyServiceImpl implements ReplyService{
         replyRepository.save(reply);
         return replyDTO.getMno();
     }
+
+    @Override
+    public void deleteReply(Long rno){
+        replyRepository.deleteById(rno);
+    }
+
 }

@@ -62,7 +62,7 @@ class MovieList {
                                             <span class="list">${item.release_date}</span>
                                         </div>
                                         <div class="col-6">
-                                            <i class="fa fa-map"></i>
+                                            <i class="fa fa-user"></i>
                                             <span class="list">${item.popularity}</span>
                                         </div>
                                     </div>
@@ -185,6 +185,9 @@ class Reply {
     constructor() {
         // 댓글 목록
         this.getReplyList = (mno) => {
+            if (!mno) {
+                throw new Error("관리자에게 문의해주세요!");
+            }
             fetch(`/movie/replies/${mno}`)
                 .then(res => res.json())
                 .then(result => {
@@ -203,18 +206,28 @@ class Reply {
             let HTMLCode = "";
             for (let item of movieDetailInfo) {
                 HTMLCode += `<div class="replies">
+
+                            <div class="replyMainConent">
                                 <div class="infoImg">
-                                <span style="width:50px;height: 50px;background-color: rgb(113, 221, 182);display: block;border-radius: 50%;"></span>
+                                    <span style="width:50px;height: 50px;background-color: rgb(113, 221, 182);display: block;border-radius: 50%;"></span>
                                 </div>
+
                                 <div class="replyInfo">
-                                <strong>${item.replier}</strong>
-                                <span>${item.text}</span>
-                                <span>${item.mod_date}</span>    
+                                    <strong>${item.replier}</strong>
+                                    <p class="replyText">${item.text}</p>
                                 </div>
-                            </div> `;
+                            </div>
+                            
+                            <div class="replySubContent">
+                                <span>${item.mod_date}</span>
+                                <div><button data-mno="${item.mno}" data-rno="${item.rno}" class="replyDelBtn">삭제</button></div> 
+                            </div>
+                                
+                        </div> `;
             } //for
             replySection.innerHTML = HTMLCode;
         };
+        // 댓글 등록
         this.insertReply = (movieDetailInfo) => {
             let replyText = "";
             const replyTextBox = document.querySelector("#writeCommentBtn");
@@ -241,6 +254,27 @@ class Reply {
                 console.log(error);
             });
         };
+        // 댓글 삭제
+        this.deleteReply = (event) => {
+            const target = event.target;
+            if (!(target instanceof HTMLElement && target.classList.contains("replyDelBtn")))
+                return;
+            const rno = target.dataset.rno;
+            const mno = target.dataset.mno || "";
+            fetch(`/movie/replies/${rno}`, {
+                method: "DELETE"
+            })
+                .then(res => res.text())
+                .then(result => {
+                // UI 작성            
+                this.getReplyList(mno);
+            }).catch(error => {
+                console.log(error);
+            });
+        };
+        this.replySection = document.querySelector("#replySection");
+        // 댓글삭제 이벤트 추가
+        this.replySection?.addEventListener("click", this.deleteReply);
     }
 }
 // init

@@ -25,4 +25,10 @@ public class ReplyController {
         Long insertReply = replyService.insertReply(replyDTO);
         return ResponseEntity.ok(insertReply);
     }
+
+    @DeleteMapping("/{rno}")
+    public ResponseEntity<String> deleteReply(@PathVariable Long rno){
+        replyService.deleteReply(rno);
+        return ResponseEntity.ok("Success");
+    }
 }

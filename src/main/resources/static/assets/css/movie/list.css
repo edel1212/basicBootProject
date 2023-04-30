@@ -31,7 +31,6 @@
     border-radius: 20px;
     padding: 25px;
     width: 85%;
-    height: 65%;
 }
 
 #writerComment{
@@ -48,10 +47,11 @@
     overflow-y: auto;
 }
 
-.replies{
-    display: flex;
+.replies{    
     border-bottom: 1px solid #fbfbfb;
     padding: 5px 0;
+    width: 100%;
+    overflow: hidden;
 }
 #writeCommentSection{
     display:flex;
@@ -100,4 +100,33 @@
 
 .pageNumBtn{
     border: 1px solid !important; 
+}
+
+.replyMainConent{
+    width: 100%;
+    display: flex;
+}
+
+.replySubContent{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.replyInfo{
+    width: 95%;
+}
+
+.replyInfo strong{
+    font-weight: 900;
+}
+
+.replyInfo span{
+    margin-left: 15px;
+}
+
+.replyText{
+    display: inline-block;
+    word-wrap: break-word;
+    width: 90%;
 }
