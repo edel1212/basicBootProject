@@ -59,7 +59,7 @@ class MainBanner{
                             <div class="main-caption" style="text-shadow: 0 0 15px #bebebe;">
                                 <h2>${randomMovieArr[i].original_title}</h2>
                                 <h1>${randomMovieArr[i].title}</h1>
-                                <div class="border-button"><a href="javascript:void(0)">Regisger Review</a></div>
+                                <div class="border-button"><a href="/movie/register?id=${randomMovieArr[i].id}">Regisger Review</a></div>
                             </div>
                             <div class="container">
                                 <div class="row">

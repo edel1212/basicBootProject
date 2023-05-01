@@ -38,7 +38,7 @@ class RegisterMovieImpl implements RegisterMovie{
         root: document.querySelector("#serchBox"),
         rootMargin: '0px',
         threshold: 0.5
-      }; 
+    }; 
 
     // 영화 검색버튼
     private readonly findMovieBtn;
@@ -58,6 +58,10 @@ class RegisterMovieImpl implements RegisterMovie{
     private registerBtn;
 
     constructor(){
+
+        // 메인베너에서 선택하여 들어왔을 경우
+        this.selectedMainBanner();  
+
         // 영화 검색
         this.findMovieBtn = document.querySelector("#findMovieBtn");
         this.findMovieBtn?.addEventListener("click",this.getMovieInfo);
@@ -74,6 +78,16 @@ class RegisterMovieImpl implements RegisterMovie{
         this.registerBtn?.addEventListener("click",this.registerMovie);        
 
     }// constructor
+
+    // 메인 배너에서 선택하여 영화에 접근했을 경우
+    private selectedMainBanner = ()=>{
+        const urlParams = new URLSearchParams(location.search);
+        if(!urlParams.has('id')) return;
+        const movieId = urlParams.get('id');
+        console.log(movieId);
+        //https://api.themoviedb.org/3/movie/157336?api_key=a3af7d97effb973e78c5fb1fd7787b13&language=ko-KR
+
+    }
 
     // 영화 정보를 가져옴
     public getMovieInfo = (event: Event)=> {
