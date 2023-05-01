@@ -23,7 +23,6 @@ class MainBanner{
                 const chk = randomMovieArr.find(item=>item.id === movieDetailInfoArr[randomNum].id)
                 if(chk) continue;           
                 
-                
                 let genrePare:string[] = [];
                 
                 let genreSize:number =  movieDetailInfoArr[randomNum].genre_ids?.length || 0;
@@ -41,15 +40,11 @@ class MainBanner{
                 if(randomMovieArr.length === 4) break;
             }// while
             
-            console.log(this.genreLst);
-
-            // 장르 변환
-           
-
             // UI Draw
             this.drawMainBanner(randomMovieArr);
         }).catch(error=>{
-            console.log(SpeechSynthesisErrorEvent);
+            this.getLastesMovieList();
+            console.log(error);
         })
     }
 
@@ -85,7 +80,7 @@ class MainBanner{
                                         </div>
                                         <div class="col-lg-3 col-sm-6 col-6">
                                         <i class="fa fa-clock"></i>
-                                        <h4><span>Relase Date:</span><br><em>${randomMovieArr[i].release_date}</em></h4>
+                                        <h4><span>Relase Date:</span><br>${randomMovieArr[i].release_date}</h4>
                                         </div>                                                            
                                     </div>
                                     </div>
@@ -108,10 +103,69 @@ class MainBanner{
             console.log(error);
         })       
     }
+}
 
+// 중간 컨텐드 탑3
+class Top3Review{
+    constructor(){
+        this.getRTop3Review();
+    }
+    // 영화 목록
+    private getRTop3Review(){        
+        fetch(`/movie?page=1&sortType=rv`)
+            .then(res => res.json())
+            .then(result => {                             
+                this.drawTop3(result.dto_list);
+            }).catch(error => {
+                console.log(error);
+            })
+    }
+    private drawTop3(movieDetailInfo:MovieDetailInfo[]){
+        const top3Wrap = document.querySelector("#top3Wrap");
+        if(!(top3Wrap instanceof HTMLElement)) return;
+        for(let i = 0; i < movieDetailInfo.length ; i ++){
+            if(i === 3) break;
+            let item = movieDetailInfo[i];
+            let htmlCode = `<div class="col-lg-12">
+                                <div class="item">
+                                <div class="row">
+                                    <div class="col-lg-4 col-sm-5">
+                                    <div class="image">
+                                        <img src="https://image.tmdb.org/t/p/original${item.poster_path}" alt="poster">
+                                    </div>
+                                    </div>
+                                    <div class="col-lg-8 col-sm-7">
+                                    <div class="right-content">
+                                        <h4 >${item.title}</h4>
+                                        <span>${item.original_title}</span>
+                                        <div class="main-button">
+                                        <a href="about.html">View Detail</a>
+                                        </div>
+                                        <p class="top3Pverview">${item.overview}</p>
+                                        <ul class="info">
+                                        <li><i class="fa fa-user"></i> ${item.popularity}</li>
+                                        <li><i class="fa fa-globe"></i> ${item.genre}</li>
+                                        <li><i class="fa fa-clock"></i> ${item.release_date}</li>
+                                        </ul>
+                                        <div>
+                                        <div>RegDate : ${item.mod_date}</div>
+                                        <div class="text-button">
+                                        <a href="about.html">edel1212@naver.com</a>
+                                        </div>
+                                        </div>                                        
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>`;
+            top3Wrap.insertAdjacentHTML("beforeend",htmlCode);
+        }//for
+        
+    }
 }
 
 // init
 (function(){
     const mainBanner = new MainBanner();    
+    const top3Review = new Top3Review();
 })();

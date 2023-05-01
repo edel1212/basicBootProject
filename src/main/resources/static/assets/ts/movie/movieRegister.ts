@@ -21,6 +21,7 @@ type MovieDetailInfo = {
     comment?       : string;    // 코멘트
     mno?           : number;    // 글번호
     reply_cnt?     : number;    // 댓글개수
+    mod_date?       : string     // 수정일자
 }
 
 type MovieSearchResult = {

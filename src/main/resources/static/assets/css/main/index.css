@@ -1,0 +1,17 @@
+#top3Wrap .top3Pverview{
+    height: 175px;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+#top3Wrap .info{
+    display: flex;
+    align-items: center;
+}
+
+#top3Wrap h4{
+    color: white;
+}
