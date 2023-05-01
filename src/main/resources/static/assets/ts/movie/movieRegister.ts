@@ -326,8 +326,6 @@ class RegisterMovieImpl implements RegisterMovie{
 
 }
 
-
-
 // init
 (function(){
     const registerMovie = new RegisterMovieImpl();

@@ -11,7 +11,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.function.Function;
 
 @Service
@@ -58,7 +62,6 @@ public class MovieServiceImpl implements MovieService{
     public MovieDTO getMovieDetail(Long mno) {
         return this.entityToDto(movieRepository.findById(mno).get());
     }
-
 
     /**
      * 받아온 정렬 조회 key를 컬럼으로 변환

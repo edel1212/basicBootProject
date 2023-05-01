@@ -8,17 +8,18 @@ class MovieList {
             const target = event.target;
             if (!(target instanceof HTMLElement))
                 return;
-            if (target.nodeName !== 'A')
-                return;
-            const targetTyp = Number(target.parentElement?.dataset.page);
-            const searchParam = {
-                page: targetTyp,
-                type: this.searchParam.type,
-                search_text: this.searchParam.search_text,
-                sortType: this.searchParam.sortType
-            };
-            // drawMovieList
-            this.getMovieList(searchParam);
+            if (target.nodeName === 'A' || target.nodeName === 'I') {
+                const targetTyp = Number(target.parentElement?.dataset.page);
+                const searchParam = {
+                    page: targetTyp,
+                    type: this.searchParam.type,
+                    search_text: this.searchParam.search_text,
+                    sortType: this.searchParam.sortType
+                };
+                // drawMovieList
+                this.getMovieList(searchParam);
+            }
+            ;
         };
         // 영화 조회 조건 이벤트
         this.movieSearch = () => {

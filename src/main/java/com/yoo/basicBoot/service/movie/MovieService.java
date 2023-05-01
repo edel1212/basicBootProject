@@ -4,7 +4,8 @@ import com.yoo.basicBoot.dto.movie.MovieDTO;
 import com.yoo.basicBoot.dto.movie.MoviePageRequestDTO;
 import com.yoo.basicBoot.dto.movie.MoviePageResultDTO;
 import com.yoo.basicBoot.entity.movie.Movie;
-import com.yoo.basicBoot.entity.movie.Reply;
+
+import java.util.List;
 
 public interface MovieService {
     //등록
@@ -16,6 +17,13 @@ public interface MovieService {
     //단건
     MovieDTO getMovieDetail(Long mno);
 
+    /**
+     * <p>
+     *     DTO를 Entity로 변환
+     * </p>
+     * @param movieDTO
+     * @return Movie
+     * */
     default Movie dtoToEntity(MovieDTO movieDTO){
         return Movie.builder()
                 .mno(movieDTO.getMno())
@@ -32,6 +40,13 @@ public interface MovieService {
                 .build();
     }
 
+    /**
+     * <p>
+     *     Entity를 DTO로 변환
+     * </p>
+     * @param movie
+     * @return MovieDTO
+     * */
     default MovieDTO entityToDto(Movie movie){
         return MovieDTO.builder()
                 .mno(movie.getMno())
@@ -50,6 +65,13 @@ public interface MovieService {
                 .build();
     }
 
+    /**
+     * <p>
+     *     Entity를 DTO로 변환 - 목록 가져올 경우 리뷰개수가 추가
+     * </p>
+     * @param movie, reply
+     * @return MovieDTO
+     * */
     default MovieDTO entityToDto(Movie movie, Long reply){
         return MovieDTO.builder()
                 .mno(movie.getMno())

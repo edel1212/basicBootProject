@@ -1,65 +1,54 @@
-class MainBanner{
-
-    // 장르목록
-    private genreLst :any | undefined;
-
-    constructor(){
+"use strict";
+class MainBanner {
+    constructor() {
         // 장르 값 설정
-        this.getGenre(); 
+        this.getGenre();
         // 메인베너 생성
-        this.getLastesMovieList()
+        this.getLastesMovieList();
     }
-
     // 메인베너 이미지를 가져옴 - 랜덤 최신영화 3개
-    private getLastesMovieList(){
+    getLastesMovieList() {
         fetch("https://api.themoviedb.org/3/movie/now_playing?api_key=a3af7d97effb973e78c5fb1fd7787b13&language=ko-KR&page=1")
-        .then(res=>res.json())
-        .then(result=>{            
+            .then(res => res.json())
+            .then(result => {
             // (4
-            let movieDetailInfoArr:MovieDetailInfo[] = result.results;
+            let movieDetailInfoArr = result.results;
             let randomMovieArr = [];
-            while(true){
-                let randomNum = Math.floor(Math.random() * (movieDetailInfoArr.length+1));
-                const chk = randomMovieArr.find(item=>item.id === movieDetailInfoArr[randomNum].id)
-                if(chk) continue;           
-                
-                
-                let genrePare:string[] = [];
-                
-                let genreSize:number =  movieDetailInfoArr[randomNum].genre_ids?.length || 0;
-                
-                for(let i = 0 ; i < genreSize ; i ++){
-                    for(let j = 0 ; j < this.genreLst.genres.length ; j++){                        
-                        if(this.genreLst.genres[j].id !== movieDetailInfoArr[randomNum].genre_ids![i]) continue;                                            
+            while (true) {
+                let randomNum = Math.floor(Math.random() * (movieDetailInfoArr.length + 1));
+                const chk = randomMovieArr.find(item => item.id === movieDetailInfoArr[randomNum].id);
+                if (chk)
+                    continue;
+                let genrePare = [];
+                let genreSize = movieDetailInfoArr[randomNum].genre_ids?.length || 0;
+                for (let i = 0; i < genreSize; i++) {
+                    for (let j = 0; j < this.genreLst.genres.length; j++) {
+                        if (this.genreLst.genres[j].id !== movieDetailInfoArr[randomNum].genre_ids[i])
+                            continue;
                         genrePare.push(this.genreLst.genres[j].name);
-                    }//for
-                }//for
-                
+                    } //for
+                } //for
                 movieDetailInfoArr[randomNum].genre = genrePare.join(",");
-
                 randomMovieArr.push(movieDetailInfoArr[randomNum]);
-                if(randomMovieArr.length === 4) break;
-            }// while
-            
+                if (randomMovieArr.length === 4)
+                    break;
+            } // while
             console.log(this.genreLst);
-
             // 장르 변환
-           
-
             // UI Draw
             this.drawMainBanner(randomMovieArr);
-        }).catch(error=>{
+        }).catch(error => {
             console.log(SpeechSynthesisErrorEvent);
-        })
+        });
     }
-
     // 메인 베너를 그림
-    private drawMainBanner(randomMovieArr:MovieDetailInfo[]){
+    drawMainBanner(randomMovieArr) {
         const sliderElem = document.querySelector("#section-1 .slider");
-        if(!(sliderElem instanceof HTMLElement)) return;
+        if (!(sliderElem instanceof HTMLElement))
+            return;
         let htmlElem = "";
-        for(let i = 0 ; i < randomMovieArr.length ; i++){
-            htmlElem += `<div id="top-banner-${i+1}" class="banner" style=" background: url('https://image.tmdb.org/t/p/original${randomMovieArr[i].backdrop_path}') no-repeat">
+        for (let i = 0; i < randomMovieArr.length; i++) {
+            htmlElem += `<div id="top-banner-${i + 1}" class="banner" style=" background: url('https://image.tmdb.org/t/p/original${randomMovieArr[i].backdrop_path}') no-repeat">
                             <div class="banner-inner-wrapper header-text">
                             <div class="main-caption" style="text-shadow: 0 0 15px #bebebe;">
                                 <h2>${randomMovieArr[i].original_title}</h2>
@@ -93,25 +82,23 @@ class MainBanner{
                                 </div>
                             </div>
                             </div>
-                        </div>`
-        }//for
+                        </div>`;
+        } //for
         sliderElem.innerHTML = htmlElem;
     }
-
     // Api Call - 영화 장르 종류 Set
-    private getGenre():void{
+    getGenre() {
         fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=a3af7d97effb973e78c5fb1fd7787b13&language=ko-KR`)
-        .then(res => res.json())
-        .then(result => {                             
-           this.genreLst = result;
+            .then(res => res.json())
+            .then(result => {
+            this.genreLst = result;
         }).catch(error => {
             console.log(error);
-        })       
+        });
     }
-
 }
-
 // init
-(function(){
-    const mainBanner = new MainBanner();    
+(function () {
+    const mainBanner = new MainBanner();
 })();
+//# sourceMappingURL=index.js.map

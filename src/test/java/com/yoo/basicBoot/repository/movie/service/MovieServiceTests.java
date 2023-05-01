@@ -22,4 +22,5 @@ public class MovieServiceTests {
         movieService.getMovieList(pageRequestDTO).getDtoList();
     }
 
+
 }

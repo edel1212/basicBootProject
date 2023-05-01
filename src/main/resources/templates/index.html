@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- js -->
+<script defer src="/assets/build/main/index.js"></script>
+<!-- css -->
 
 <th:block th:replace="~{/layout/base :: setContent(~{this::content})}">
   <th:block  th:fragment="content">
@@ -8,9 +11,9 @@
   <section id="section-1">
     <div class="content-slider">
       <input type="radio" id="banner1" class="sec-1-input" name="banner" checked>
-      <!-- <input type="radio" id="banner2" class="sec-1-input" name="banner">
+      <input type="radio" id="banner2" class="sec-1-input" name="banner">
       <input type="radio" id="banner3" class="sec-1-input" name="banner">
-      <input type="radio" id="banner4" class="sec-1-input" name="banner"> -->
+      <input type="radio" id="banner4" class="sec-1-input" name="banner">
       <div class="slider">
         <div id="top-banner-1" class="banner">
           <div class="banner-inner-wrapper header-text">
@@ -35,12 +38,7 @@
                       <div class="col-lg-3 col-sm-6 col-6">
                         <i class="fa fa-home"></i>
                         <h4><span>AVG Price:</span><br>$946.000</h4>
-                      </div>
-                      <div class="col-lg-3 col-sm-6 col-6">
-                        <div class="main-button">
-                          <a href="about.html">Explore More</a>
-                        </div>
-                      </div>
+                      </div>                      
                     </div>
                   </div>
                 </div>
@@ -155,14 +153,14 @@
               </div>
             </div>
           </div>
-        </div>
-      </div> -->
+        </div> -->
+      </div>
       <nav>
         <div class="controls">
           <label for="banner1"><span class="progressbar"><span class="progressbar-fill"></span></span><span class="text">1</span></label>
-          <!-- <label for="banner2"><span class="progressbar"><span class="progressbar-fill"></span></span><span class="text">2</span></label>
+          <label for="banner2"><span class="progressbar"><span class="progressbar-fill"></span></span><span class="text">2</span></label>
           <label for="banner3"><span class="progressbar"><span class="progressbar-fill"></span></span><span class="text">3</span></label>
-          <label for="banner4"><span class="progressbar"><span class="progressbar-fill"></span></span><span class="text">4</span></label> -->
+          <label for="banner4"><span class="progressbar"><span class="progressbar-fill"></span></span><span class="text">4</span></label>
         </div>
       </nav>
     </div>
