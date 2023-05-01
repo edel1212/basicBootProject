@@ -37,6 +37,9 @@ dependencies {
 	testImplementation 'org.springframework.graphql:spring-graphql-test'
 	//testImplementation 'org.springframework.security:spring-security-test'
 
+	// WebClient
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
 	// Query log
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.8'
 
