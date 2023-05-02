@@ -15,3 +15,26 @@
 #top3Wrap h4{
     color: white;
 }
+
+#realTimeRank{
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 0.5rem;
+    padding: 15px;
+}
+
+#realTimeRank table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    color: #141a39;
+    cursor: default;
+}
+
+#realTimeRank tr:hover {
+    background-color: #9d9797;
+    transform: scale(1.1);
+}
+
