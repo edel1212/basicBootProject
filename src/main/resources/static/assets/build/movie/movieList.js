@@ -9,9 +9,21 @@ class MovieList {
             if (!(target instanceof HTMLElement))
                 return;
             if (target.nodeName === 'A' || target.nodeName === 'I') {
-                const targetTyp = Number(target.parentElement?.dataset.page);
+                // 선택된 페이지 번호
+                let pageNumber;
+                // 대상의 Li 노드
+                let tatgetLiNode;
+                if (target.nodeName === 'A') {
+                    tatgetLiNode = target.parentElement;
+                }
+                else {
+                    tatgetLiNode = target.parentElement?.parentElement;
+                } // if else
+                if (!tatgetLiNode)
+                    return;
+                pageNumber = tatgetLiNode.dataset.page;
                 const searchParam = {
-                    page: targetTyp,
+                    page: Number(pageNumber),
                     type: this.searchParam.type,
                     search_text: this.searchParam.search_text,
                     sortType: this.searchParam.sortType
