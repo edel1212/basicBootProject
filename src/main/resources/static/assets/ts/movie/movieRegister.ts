@@ -21,7 +21,8 @@ type MovieDetailInfo = {
     comment?       : string;    // 코멘트
     mno?           : number;    // 글번호
     reply_cnt?     : number;    // 댓글개수
-    mod_date?       : string     // 수정일자
+    mod_date?      : string     // 수정일자
+    genres?        : {id:number; name:string}[]; // 영화ID 조회 시 장르
 }
 
 type MovieSearchResult = {
@@ -83,10 +84,18 @@ class RegisterMovieImpl implements RegisterMovie{
     private selectedMainBanner = ()=>{
         const urlParams = new URLSearchParams(location.search);
         if(!urlParams.has('id')) return;
-        const movieId = urlParams.get('id');
-        console.log(movieId);
-        //https://api.themoviedb.org/3/movie/157336?api_key=a3af7d97effb973e78c5fb1fd7787b13&language=ko-KR
-
+        const movieId = urlParams.get('id');    
+        fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=a3af7d97effb973e78c5fb1fd7787b13&language=ko-KR`)
+        .then(res=>res.json())
+        .then(obj => {            
+            if(!obj){
+                alert("관리자이게 문의해 주세요");
+                return;
+            }
+            this.setupMovieDetail(obj);
+        }).catch(error =>{
+            console.log(error);
+        })
     }
 
     // 영화 정보를 가져옴
@@ -210,8 +219,16 @@ class RegisterMovieImpl implements RegisterMovie{
         
         const obj = this.movieSearchResult?.results.find(i=>{
             return i.id == targetElem?.dataset.id
-        })
+        }) ;
 
+        if(!obj){
+            alert("관리자이게 문의해 주세요");
+            return;
+        }
+        this.setupMovieDetail(obj);
+    }
+
+    private setupMovieDetail = (obj:MovieDetailInfo)=>{
         // 장르 변환
         let genrePare:string[] = [];
         if(obj?.genre_ids){
@@ -222,6 +239,8 @@ class RegisterMovieImpl implements RegisterMovie{
                     genrePare.push(this.genreLst.genres[j].name);
                 }//for
             }//for
+        } else {                
+            genrePare = obj.genres?.map((item)=>item.name) || [];
         }    
         
         // 데이터 세팅

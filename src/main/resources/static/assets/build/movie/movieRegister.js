@@ -13,8 +13,17 @@ class RegisterMovieImpl {
             if (!urlParams.has('id'))
                 return;
             const movieId = urlParams.get('id');
-            console.log(movieId);
-            //https://api.themoviedb.org/3/movie/157336?api_key=a3af7d97effb973e78c5fb1fd7787b13&language=ko-KR
+            fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=a3af7d97effb973e78c5fb1fd7787b13&language=ko-KR`)
+                .then(res => res.json())
+                .then(obj => {
+                if (!obj) {
+                    alert("관리자이게 문의해 주세요");
+                    return;
+                }
+                this.setupMovieDetail(obj);
+            }).catch(error => {
+                console.log(error);
+            });
         };
         // 영화 정보를 가져옴
         this.getMovieInfo = (event) => {
@@ -82,6 +91,13 @@ class RegisterMovieImpl {
             const obj = this.movieSearchResult?.results.find(i => {
                 return i.id == targetElem?.dataset.id;
             });
+            if (!obj) {
+                alert("관리자이게 문의해 주세요");
+                return;
+            }
+            this.setupMovieDetail(obj);
+        };
+        this.setupMovieDetail = (obj) => {
             // 장르 변환
             let genrePare = [];
             if (obj?.genre_ids) {
@@ -93,6 +109,9 @@ class RegisterMovieImpl {
                         genrePare.push(this.genreLst.genres[j].name);
                     } //for
                 } //for
+            }
+            else {
+                genrePare = obj.genres?.map((item) => item.name) || [];
             }
             // 데이터 세팅
             this.movieDetailInfo = {
