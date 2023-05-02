@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <!-- js -->
-<script defer src="/assets/build/main/index.js"></script>
+<script type="module" defer src="/assets/build/main/index.js"></script>
 <!-- css -->
 <link rel="stylesheet" href="/assets/css/main/index.css">
 <th:block th:replace="~{/layout/base :: setContent(~{this::content})}">
@@ -41,7 +41,7 @@
       </div>
       <div class="row">
         <div class="col-lg-8">
-          <div class="items">
+          <div class="items" id="listWrap">
             <div id="top3Wrap" class="row">
                     <!-- script -->
             </div>

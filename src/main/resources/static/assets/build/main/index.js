@@ -1,4 +1,7 @@
-"use strict";
+import { MoiveDetails } from '../movie/movieList.js';
+/**
+ * 메인 배너
+ */
 class MainBanner {
     constructor() {
         // 장르 값 설정
@@ -132,7 +135,7 @@ class Top3Review {
                                         <h4 >${item.title}</h4>
                                         <span>${item.original_title}</span>
                                         <div class="main-button">
-                                        <a href="about.html">View Detail</a>
+                                        <a class="showMovieDetails" data-mno="${item.mno}" href="javascript:void(0)">View Detail</a>
                                         </div>
                                         <p class="top3Pverview">${item.overview}</p>
                                         <ul class="info">
@@ -159,5 +162,6 @@ class Top3Review {
 (function () {
     const mainBanner = new MainBanner();
     const top3Review = new Top3Review();
+    const moiveDetails = new MoiveDetails();
 })();
 //# sourceMappingURL=index.js.map

@@ -1,3 +1,5 @@
+export {MoiveDetails}
+
 type MoviePagingObject = {
     dto_list : MovieDetailInfo[];
     next        : boolean;
@@ -297,8 +299,15 @@ class MoiveDetails{
         
     }
     // Modal Control Event
-    private modalHide = (modalSection : HTMLElement)=> modalSection.style.display = "none";
-    private modalShow = (modalSection : HTMLElement)=> modalSection.style.display = "flex";
+    private modalShow = (modalSection : HTMLElement) => {
+        modalSection.style.display = "flex";
+        document.body.style.overflow = "hidden";
+    };
+    private modalHide = (modalSection : HTMLElement) => {
+        modalSection.style.display = "none";
+        document.body.style.overflow = "unset";
+    };
+    
 }
 
 class Reply{
@@ -405,6 +414,7 @@ class Reply{
 
 // init
 (function(){
+    if(location.pathname !== "/movie/list") return;
     const movieList = new MovieList();
     const movieDetails = new MoiveDetails();
 })();

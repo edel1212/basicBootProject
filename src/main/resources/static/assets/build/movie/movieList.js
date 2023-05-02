@@ -1,4 +1,4 @@
-"use strict";
+export { MoiveDetails };
 // 영화 목록
 class MovieList {
     constructor() {
@@ -214,8 +214,14 @@ class MoiveDetails {
                 this.reply.getReplyList(mno);
         };
         // Modal Control Event
-        this.modalHide = (modalSection) => modalSection.style.display = "none";
-        this.modalShow = (modalSection) => modalSection.style.display = "flex";
+        this.modalShow = (modalSection) => {
+            modalSection.style.display = "flex";
+            document.body.style.overflow = "hidden";
+        };
+        this.modalHide = (modalSection) => {
+            modalSection.style.display = "none";
+            document.body.style.overflow = "unset";
+        };
         // 상세정보 초기화
         this.movieDetailInfo = {};
         // 상세보기 Event
@@ -330,6 +336,8 @@ class Reply {
 }
 // init
 (function () {
+    if (location.pathname !== "/movie/list")
+        return;
     const movieList = new MovieList();
     const movieDetails = new MoiveDetails();
 })();

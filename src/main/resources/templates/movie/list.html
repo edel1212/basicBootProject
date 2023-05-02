@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <!-- js -->
-<script defer src="/assets/build/movie/movieList.js"></script>
+<script type="module" defer src="/assets/build/movie/movieList.js"></script>
 <!-- css -->
 <link rel="stylesheet" href="/assets/css/movie/list.css">
   <th:block th:replace="~{/layout/base :: setContent(~{this::content})}">
@@ -92,56 +92,6 @@
           </div>
         </div>
       </div>
-
-
-      <!-- ModalSection -->
-      <div id="open-modal" class="modal-window">
-        <div id="modal-conent">
-          <div style="display: flex;justify-content: flex-end;">
-            <a href="javascript:void(0)" title="Close" id="modalCloseBtn" class="modal-close">Close</a>
-          </div>
-          <div class="row" >
-            <div class="col-lg-6">
-              <div id="modalMovieImg" class="image">                                    
-              </div>
-            </div>
-
-            <div class="col-lg-6">
-              <div class="content">
-                <span id="originalTitle" class="info "></span>
-                <h4 id="movieNm"></h4>
-                <div class="row">
-                    <div class="col-6">
-                        <i class="fa fa-clock"></i>
-                        <span id="releaseDate" class="list"></span>
-                    </div>
-                    <div class="col-6">
-                        <i class="fa fa-map"></i>
-                        <span id="popularity" class="list"></span>
-                    </div>
-                </div>
-                <div id="writerComment">
-                  <p></p>
-                </div>
-                <section id="replySection">
-                  <!-- script -->
-                </section>    
-           
-                <div class="col-lg-12" id="writeCommentWrap">                                    
-                  <fieldset style="width:100%">                      
-                    <input type="text" id="writeCommentBtn" name="replyComment" placeholder="Please Write your think" autocomplete="on" >
-                  </fieldset>
-                  <fieldsets>
-                    <button id="writeBtn" class="border-button">Write</button>
-                  </fieldsets>                  
-                </div>   
-              
-              </div>
-            </div>
-          </div>          
-        </div>
-      </div>
-      <!-- ModalSection - end -->
 
     </th:block>
   </th:block>
