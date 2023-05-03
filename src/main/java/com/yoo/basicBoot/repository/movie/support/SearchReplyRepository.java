@@ -1,4 +1,4 @@
-package com.yoo.basicBoot.repository.movie.dsl;
+package com.yoo.basicBoot.repository.movie.support;
 
 import com.yoo.basicBoot.entity.movie.Reply;
 

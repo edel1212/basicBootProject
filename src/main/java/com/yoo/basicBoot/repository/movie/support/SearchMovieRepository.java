@@ -1,4 +1,4 @@
-package com.yoo.basicBoot.repository.movie.dsl;
+package com.yoo.basicBoot.repository.movie.support;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

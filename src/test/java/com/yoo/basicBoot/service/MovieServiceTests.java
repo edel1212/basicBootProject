@@ -1,4 +1,4 @@
-package com.yoo.basicBoot.repository.movie.service;
+package com.yoo.basicBoot.service;
 
 import com.yoo.basicBoot.dto.movie.MoviePageRequestDTO;
 import com.yoo.basicBoot.service.movie.MovieService;

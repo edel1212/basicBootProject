@@ -1,10 +1,9 @@
-package com.yoo.basicBoot.repository.movie.dsl;
+package com.yoo.basicBoot.repository.movie.support;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import com.yoo.basicBoot.entity.movie.Movie;

@@ -1,4 +1,4 @@
-package com.yoo.basicBoot.repository.movie.repository;
+package com.yoo.basicBoot.repository;
 
 
 import com.yoo.basicBoot.entity.movie.Movie;

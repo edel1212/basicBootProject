@@ -1,10 +1,9 @@
-package com.yoo.basicBoot.repository.movie.dsl;
+package com.yoo.basicBoot.repository.movie.support;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPQLQuery;
-import com.yoo.basicBoot.entity.movie.Movie;
 import com.yoo.basicBoot.entity.movie.QReply;
 import com.yoo.basicBoot.entity.movie.Reply;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
