@@ -1,0 +1,132 @@
+
+form.user .custom-checkbox.small label {
+    line-height: 1.5rem
+}
+
+form.user .form-control-user {
+    font-size: .8rem;
+    border-radius: 10rem;
+    padding: 1.5rem 1rem
+}
+
+form.user .btn-user {
+    font-size: .8rem;
+    border-radius: 10rem;
+    padding: .75rem 1rem
+}
+
+.btn-google {
+    color: #fff;
+    background-color: #ea4335;
+    border-color: #fff
+}
+
+.btn-google:hover {
+    color: #fff;
+    background-color: #e12717;
+    border-color: #e6e6e6
+}
+
+.btn-google.focus,.btn-google:focus {
+    color: #fff;
+    background-color: #e12717;
+    border-color: #e6e6e6;
+    box-shadow: 0 0 0 .2rem rgba(255,255,255,.5)
+}
+
+.btn-google.disabled,.btn-google:disabled {
+    color: #fff;
+    background-color: #ea4335;
+    border-color: #fff
+}
+
+.btn-google:not(:disabled):not(.disabled).active,.btn-google:not(:disabled):not(.disabled):active,.show>.btn-google.dropdown-toggle {
+    color: #fff;
+    background-color: #d62516;
+    border-color: #dfdfdf
+}
+
+.btn-google:not(:disabled):not(.disabled).active:focus,.btn-google:not(:disabled):not(.disabled):active:focus,.show>.btn-google.dropdown-toggle:focus {
+    box-shadow: 0 0 0 .2rem rgba(255,255,255,.5)
+}
+
+.btn-facebook {
+    color: #fff;
+    background-color: #3b5998;
+    border-color: #fff
+}
+
+.btn-facebook:hover {
+    color: #fff;
+    background-color: #30497c;
+    border-color: #e6e6e6
+}
+
+.btn-facebook.focus,.btn-facebook:focus {
+    color: #fff;
+    background-color: #30497c;
+    border-color: #e6e6e6;
+    box-shadow: 0 0 0 .2rem rgba(255,255,255,.5)
+}
+
+.btn-facebook.disabled,.btn-facebook:disabled {
+    color: #fff;
+    background-color: #3b5998;
+    border-color: #fff
+}
+
+.btn-facebook:not(:disabled):not(.disabled).active,.btn-facebook:not(:disabled):not(.disabled):active,.show>.btn-facebook.dropdown-toggle {
+    color: #fff;
+    background-color: #2d4373;
+    border-color: #dfdfdf
+}
+
+.btn-facebook:not(:disabled):not(.disabled).active:focus,.btn-facebook:not(:disabled):not(.disabled):active:focus,.show>.btn-facebook.dropdown-toggle:focus {
+    box-shadow: 0 0 0 .2rem rgba(255,255,255,.5)
+}
+
+
+.form-group {
+    margin-bottom: 1rem !important;
+}
+
+.custom-control {
+    position: relative;
+    z-index: 1;
+    display: block;
+    min-height: 1.5rem;
+    padding-left: 1.5rem;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+}
+
+.small, small {
+    font-size: 80%;
+    font-weight: 400;
+}
+
+hr{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0,0,0,.1);
+}
+
+form.user .btn-user {
+    width: 100%;
+}
+
+.btn-block+.btn-block {
+    margin-top: 0.5rem;
+}
+
+.custom-checkbox{
+    line-height: 1.5;
+    color: #858796;
+    text-align: left;    
+}
+
+.bg-login-image{
+    background: url("https://blog.vpncity.com/wp-content/uploads/2020/01/xx-750x375.png") no-repeat center center;
+    background-size:  cover;
+}
