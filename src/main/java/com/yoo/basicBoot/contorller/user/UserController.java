@@ -21,9 +21,9 @@ public class UserController {
     public void register(){}
 
 
-    @GetMapping("/{email}")
+    @GetMapping()
     @ResponseBody
-    public ResponseEntity<Long> findMember(@PathVariable String email){
+    public ResponseEntity<Long> findMember(String email){
         return ResponseEntity.ok(memberService.findMemberByEmail(email));
     }
 

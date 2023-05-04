@@ -24,6 +24,8 @@ class Register {
                 this.passwordChek.focus();
                 return;
             } //if
+            // 이메일 확인
+            this.emailValidationCheck();
         };
         // 이메일 Validation Check
         this.emailValidationCheck = async () => {
@@ -36,7 +38,7 @@ class Register {
                 alert("이메일을 확인해 주세요");
                 return;
             } //if
-            await fetch(`/user/${email}`)
+            await fetch(`/user?email=${email}`)
                 .then(res => res.text())
                 .then(result => {
                 if (result === '1') {
