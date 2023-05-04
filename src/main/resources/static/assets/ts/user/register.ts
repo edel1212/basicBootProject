@@ -8,7 +8,7 @@ class Register{
     private registerGoogleBtn;
     private registerNaverleBtn;
 
-    // 회원 가입가능 여부 체크
+    // 저장 Flag
     private registerFlag = false;
 
     constructor(){
@@ -18,16 +18,8 @@ class Register{
         this.passwordChek = document.querySelector("#pwCheck");
 
         // Validation Check
-        this.email?.addEventListener("focusout",()=>{
-            if( !(this.email instanceof HTMLInputElement) ) return;
-            const check = this.emailValicationCheck(this.email.value);
-            if(!check){
-                alert("이메일을 확인해 주세요");
-                return;
-            } 
-
-            this.registerFlag = check;
-        })
+        // 이메일 체크
+        this.email?.addEventListener("focusout",this.emailValidationCheck);
 
         // 등록 버튼
         this.registerBtn        = document.querySelector("#registerBtn");
@@ -63,9 +55,33 @@ class Register{
     }
 
     // 이메일 정규식 체크
-    private emailValicationCheck(email:string):boolean{
+    private emailRegexCheck(email:string):boolean{
         let regex = new RegExp("([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\[[\t -Z^-~]*])");
         return regex.test(email);
+    }
+
+    // 이메일 Validation Check
+    private emailValidationCheck = async ()=>{
+        this.registerFlag = false;
+        if( !(this.email instanceof HTMLInputElement) ) return;
+        const email = this.email.value;
+        const regexCheck = this.emailRegexCheck(email);
+        if(!regexCheck){
+            alert("이메일을 확인해 주세요");            
+            return;
+        }//if
+        await fetch(`/user/${email}`)
+        .then(res => res.text())
+        .then(result =>{
+            if(result === '1') {
+                alert("이미 사용중인 이메일입니다.");
+                return;
+            }
+            this.registerFlag = true;
+        }).catch(error =>{
+            console.log(error);
+        }) 
+        console.log(this.registerFlag);
     }
 
 }

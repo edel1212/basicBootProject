@@ -1,7 +1,7 @@
 "use strict";
 class Register {
     constructor() {
-        // 회원 가입가능 여부 체크
+        // 저장 Flag
         this.registerFlag = false;
         // 등록 요청
         this.registerUser = () => {
@@ -25,21 +25,37 @@ class Register {
                 return;
             } //if
         };
+        // 이메일 Validation Check
+        this.emailValidationCheck = async () => {
+            this.registerFlag = false;
+            if (!(this.email instanceof HTMLInputElement))
+                return;
+            const email = this.email.value;
+            const regexCheck = this.emailRegexCheck(email);
+            if (!regexCheck) {
+                alert("이메일을 확인해 주세요");
+                return;
+            } //if
+            await fetch(`/user/${email}`)
+                .then(res => res.text())
+                .then(result => {
+                if (result === '1') {
+                    alert("이미 사용중인 이메일입니다.");
+                    return;
+                }
+                this.registerFlag = true;
+            }).catch(error => {
+                console.log(error);
+            });
+            console.log(this.registerFlag);
+        };
         this.name = document.querySelector("#name");
         this.email = document.querySelector("#userId");
         this.password = document.querySelector("#userPw");
         this.passwordChek = document.querySelector("#pwCheck");
         // Validation Check
-        this.email?.addEventListener("focusout", () => {
-            if (!(this.email instanceof HTMLInputElement))
-                return;
-            const check = this.emailValicationCheck(this.email.value);
-            if (!check) {
-                alert("이메일을 확인해 주세요");
-                return;
-            }
-            this.registerFlag = check;
-        });
+        // 이메일 체크
+        this.email?.addEventListener("focusout", this.emailValidationCheck);
         // 등록 버튼
         this.registerBtn = document.querySelector("#registerBtn");
         this.registerBtn?.addEventListener("click", this.registerUser);
@@ -49,7 +65,7 @@ class Register {
         this.registerNaverleBtn = document.querySelector("#naverBtn");
     }
     // 이메일 정규식 체크
-    emailValicationCheck(email) {
+    emailRegexCheck(email) {
         let regex = new RegExp("([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\[[\t -Z^-~]*])");
         return regex.test(email);
     }
