@@ -46,8 +46,16 @@ public class MemberServiceTests {
     }
 
     @Test
-    public void ttt9(){
+    public void enumTest(){
         log.info(":::: {}",String.valueOf(Roles.ADMIN));
     }
+
+
+    @Test
+    public void countMemberTest(){
+        long count =memberService.findMemberByEmail("edel1112@naver.com");
+        log.info("count :::: {}",count);
+    }
+
 
 }

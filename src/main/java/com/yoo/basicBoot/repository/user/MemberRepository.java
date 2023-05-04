@@ -5,4 +5,5 @@ import com.yoo.basicBoot.repository.user.support.SearchMemberRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberRepository extends JpaRepository<Member, String>, SearchMemberRepository {
+    Long countByEmail(String email);
 }
