@@ -1,6 +1,7 @@
 package com.yoo.basicBoot.service.user;
 
 import com.yoo.basicBoot.dto.user.MemberDTO;
+import com.yoo.basicBoot.entity.user.Member;
 
 public interface MemberService {
 
@@ -18,4 +19,26 @@ public interface MemberService {
      * */
     Long findMemberByEmail(String email);
 
+
+    default MemberDTO entityToDTO(Member member){
+        return MemberDTO.builder()
+                .email(member.getEmail())
+                .password(member.getPassword())
+                .fromSocial(member.isFromSocial())
+                .name(member.getName())
+                .role(member.getRole())
+                .modDate(member.getModDate())
+                .regDate(member.getRegDate())
+                .build();
+    }
+
+    default Member dtoToEntity(MemberDTO memberDTO){
+        return Member.builder()
+                .email(memberDTO.getEmail())
+                .password(memberDTO.getPassword())
+                .fromSocial(memberDTO.isFromSocial())
+                .name(memberDTO.getName())
+                .role(memberDTO.getRole())
+                .build();
+    }
 }

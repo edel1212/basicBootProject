@@ -1,5 +1,6 @@
 package com.yoo.basicBoot.contorller.user;
 
+import com.yoo.basicBoot.common.ResultState;
 import com.yoo.basicBoot.dto.user.MemberDTO;
 import com.yoo.basicBoot.service.user.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -27,4 +28,18 @@ public class UserController {
         return ResponseEntity.ok(memberService.findMemberByEmail(email));
     }
 
+    @PostMapping()
+    @ResponseBody
+    public ResponseEntity<ResultState> register(@RequestBody MemberDTO memberDTO){
+        ResultState resultSate = new ResultState();
+        String email = memberService.registerMember(memberDTO);
+        if(email == null){
+            resultSate.setStateCd(99);
+            resultSate.setStateMsg(null);
+        }else{
+            resultSate.setStateCd(200);
+            resultSate.setStateMsg(email);
+        }
+        return ResponseEntity.ok(resultSate);
+    }
 }

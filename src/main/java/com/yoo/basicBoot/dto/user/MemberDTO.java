@@ -21,6 +21,8 @@ public class MemberDTO {
 
     private boolean fromSocial;
 
+    private String role;
+
     //BaseEntity에 추가된 변수
     private LocalDateTime regDate;
     private LocalDateTime modDate;

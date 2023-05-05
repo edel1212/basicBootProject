@@ -1,3 +1,10 @@
+
+type RegisterParam = {
+    email    : string,
+    password : string,
+    name     : string
+}
+
 class Register{
     private name;
     private email;
@@ -21,6 +28,9 @@ class Register{
         // 이메일 체크
         this.email?.addEventListener("focusout",this.emailValidationCheck);
 
+        // 비밀번호 확인 체크
+        this.passwordChek?.addEventListener("focusout",this.pwValidationCheck);
+
         // 등록 버튼
         this.registerBtn        = document.querySelector("#registerBtn");
         this.registerBtn?.addEventListener("click",this.registerUser);
@@ -41,21 +51,47 @@ class Register{
             
             // Validation Check
             for(let item of inputArr){
-                if(item.value?.trim()) continue;
-                alert("모든 값을 입력해 주세요");
+                if(item.value?.trim()) continue;    
+                let elemName = "";
+                if(item.id === "name"){
+                    elemName = "이름";
+                }else if(item.id === "userId"){
+                    elemName = "이메일";
+                } else if(item.id === "userPw"){
+                    elemName = "페스워드";
+                }
+                alert(`${elemName}을(를) 입력해 주세요`);
                 item.focus();
                 return; 
             }//for
-
-            if(this.password !== this.passwordChek){
-                alert("비밀번호가 서로 다릅니다.");
-                this.passwordChek.focus();
-                return; 
-            }//if
             
             // 이메일 확인
             this.emailValidationCheck();
 
+            // 비밀번호 확인
+            this.pwValidationCheck();
+
+            // 모든 값 충족 확인
+            if(!this.registerFlag) return;
+
+            const registerParam:RegisterParam = {
+                email : this.email.value,
+                password : this.password.value,
+                name : this.name.value
+            }
+
+            fetch("/user",{
+                method : "POST",
+                headers : {
+                    "Content-Type": "application/json",
+                },
+                body : JSON.stringify(registerParam)
+            }).then(res=>res.json())
+            .then(result =>{
+                console.log(result);
+            }).catch(error =>{
+                console.log(error);
+            })
     }
 
     // 이메일 정규식 체크
@@ -70,7 +106,7 @@ class Register{
         if( !(this.email instanceof HTMLInputElement) ) return;
         const email = this.email.value;
         const regexCheck = this.emailRegexCheck(email);
-        if(!regexCheck){
+        if(!regexCheck && email?.trim()){
             alert("이메일을 확인해 주세요");            
             return;
         }//if
@@ -84,8 +120,24 @@ class Register{
             this.registerFlag = true;
         }).catch(error =>{
             console.log(error);
-        }) 
-        console.log(this.registerFlag);
+        })         
+    }
+
+    // 비밀번호 Validation Check
+    private pwValidationCheck = async ()=>{
+        this.registerFlag = false;
+        if(!(this.password instanceof HTMLInputElement))return;
+        if(!(this.passwordChek instanceof HTMLInputElement))return;
+
+        if(!this.password.value?.trim() || !this.passwordChek?.value.trim()){
+            alert("패스워드를 입력해주세요.");
+            return;
+        }
+        if(this.password.value !== this.passwordChek.value){            
+            alert("비밀번호가 서로 다릅니다.");            
+            return; 
+        }//if
+        this.registerFlag = true;
     }
 
 }

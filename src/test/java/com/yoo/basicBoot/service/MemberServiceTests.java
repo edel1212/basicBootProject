@@ -2,6 +2,7 @@ package com.yoo.basicBoot.service;
 
 import com.yoo.basicBoot.common.Roles;
 import com.yoo.basicBoot.dto.user.MemberAuthDTO;
+import com.yoo.basicBoot.dto.user.MemberDTO;
 import com.yoo.basicBoot.entity.user.Member;
 import com.yoo.basicBoot.service.user.MemberService;
 import lombok.extern.log4j.Log4j2;
@@ -23,7 +24,7 @@ public class MemberServiceTests {
     private PasswordEncoder passwordEncoder;
 
     @Test
-    public void memberInsertTest(){
+    public void dummyMemberInsertTest(){
         IntStream.rangeClosed(1, 50).forEach(idx ->{
             String role = "";
             if(idx > 40){
@@ -43,6 +44,18 @@ public class MemberServiceTests {
                     .build();
           //memberService.registerMember(member);
         });
+    }
+
+
+    @Test
+    public void insertMember(){
+        MemberDTO memberDTO = MemberDTO.builder()
+                .email("yoo@naver.com")
+                .password("123")
+                .name("테스트입니다.")
+                .build();
+        String emailResult = memberService.registerMember(memberDTO);
+        log.info(emailResult);
     }
 
     @Test
