@@ -34,7 +34,7 @@ public class UserController {
         ResultState resultSate = new ResultState();
         String email = memberService.registerMember(memberDTO);
         if(email == null){
-            resultSate.setStateCd(99);
+            resultSate.setStateCd(999);
             resultSate.setStateMsg(null);
         }else{
             resultSate.setStateCd(200);

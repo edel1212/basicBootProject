@@ -1,6 +1,7 @@
 package com.yoo.basicBoot.config;
 
-import com.yoo.basicBoot.security.service.AuthSuccessHandler;
+import com.yoo.basicBoot.security.handler.AuthFailureHandler;
+import com.yoo.basicBoot.security.handler.AuthSuccessHandler;
 import com.yoo.basicBoot.security.service.MemberDetailService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,6 @@ public class SecurityConfig {
 
     @Autowired
     private MemberDetailService memberDetailsService;
-
-    @Autowired
-    private AuthSuccessHandler authSuccessHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -46,11 +44,16 @@ public class SecurityConfig {
 
 
         httpSecurity
-                .formLogin()                            // 로그인 페이지 지정s
-                .loginPage("/user/login")               // Action URI
-                .successHandler(authSuccessHandler);    // CustomSuccess Handler
+                .formLogin()                                // 로그인 페이지 지정s
+                .loginPage("/user/login")                   // login URL
+                .loginProcessingUrl("/user/login")          // Action URI
+                .successHandler(new AuthSuccessHandler())   // CustomSuccess Handler
+                .failureHandler(new AuthFailureHandler());
 
+        // remember me
+        httpSecurity.rememberMe().tokenValiditySeconds(60*60*24*7);
 
+        // 로그아웃
         httpSecurity.logout();
 
         httpSecurity.csrf().disable();

@@ -8,7 +8,9 @@ class Login {
                 return;
             const email = loginForm.querySelector("input[name='email']");
             const password = loginForm.querySelector("input[name='password']");
-            if (!(email instanceof HTMLInputElement && password instanceof HTMLInputElement))
+            const remember = document.querySelector("#customCheck");
+            if (!(email instanceof HTMLInputElement && password instanceof HTMLInputElement
+                && remember instanceof HTMLInputElement))
                 return;
             if (!email.value?.trim()) {
                 alert("이메일을 입력해주세요");
@@ -27,7 +29,8 @@ class Login {
                     "Content-Type": "application/x-www-form-urlencoded"
                 }, body: new URLSearchParams({
                     username: email.value,
-                    password: password.value
+                    password: password.value,
+                    "remember-me": String(remember.checked)
                 })
             }).then(res => res.json())
                 .then(result => {

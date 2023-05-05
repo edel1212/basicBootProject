@@ -1,4 +1,4 @@
-package com.yoo.basicBoot.security.service;
+package com.yoo.basicBoot.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yoo.basicBoot.common.ResultState;
@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-@Component
 @Log4j2
 public class AuthSuccessHandler implements AuthenticationSuccessHandler {
     @Override
