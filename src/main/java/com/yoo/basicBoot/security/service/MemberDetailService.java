@@ -1,4 +1,4 @@
-package com.yoo.basicBoot.security;
+package com.yoo.basicBoot.security.service;
 
 import com.yoo.basicBoot.dto.user.MemberAuthDTO;
 import com.yoo.basicBoot.entity.user.Member;
