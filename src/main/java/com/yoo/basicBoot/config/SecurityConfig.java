@@ -42,7 +42,6 @@ public class SecurityConfig {
         // 앞서 생성한 AuthenticationManager 주입
         httpSecurity.authenticationManager(authenticationManager);
 
-
         httpSecurity
                 .formLogin()                                // 로그인 페이지 지정s
                 .loginPage("/user/login")                   // login URL
@@ -52,6 +51,9 @@ public class SecurityConfig {
 
         // remember me
         httpSecurity.rememberMe().tokenValiditySeconds(60*60*24*7);
+
+        // OAuth2 Loging
+        httpSecurity.oauth2Login();
 
         // 로그아웃
         httpSecurity.logout();

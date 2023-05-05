@@ -26,21 +26,29 @@ class Login {
                 method: "post",
                 cache: "no-cache",
                 headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "remember-me": String(remember.checked)
                 }, body: new URLSearchParams({
                     username: email.value,
-                    password: password.value,
-                    "remember-me": String(remember.checked)
+                    password: password.value
                 })
             }).then(res => res.json())
                 .then(result => {
-                console.log(result);
+                if (result.stateCd === 200) {
+                    location.href = "/";
+                }
+                else {
+                    alert("아이디 혹은 비밀번호를 체크 해주세요");
+                } // if - else
             }).catch(error => {
                 console.log(error);
             });
         };
+        // 일반 로그인 버트
         this.loginBtn = document.querySelector("#loginBtn");
         this.loginBtn?.addEventListener("click", this.loginEvent);
+        // Google 로그인 버튼
+        this.googleBtn = document.querySelector("#googleBtn");
     }
 }
 // init

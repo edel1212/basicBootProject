@@ -37,6 +37,9 @@ dependencies {
 	testImplementation 'org.springframework.graphql:spring-graphql-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
+	// OAuth2
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
 	// WebClient
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 

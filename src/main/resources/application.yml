@@ -24,6 +24,11 @@ spring:
   ######################
   jackson:
     property-naming-strategy: SNAKE_CASE
+  ######################
+  # include OAuth #
+  ######################
+  profiles:
+    include: oauth
 ##########################################################
 # Detail Show JPA Query                                  #
 # have to setting - Dev [true] - Prod [false] setting    #
