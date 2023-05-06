@@ -26,7 +26,7 @@ public class SecurityConfig {
     private MemberDetailService memberDetailsService;
 
     public OAuth2LoginFilter oAuth2LoginFilter(AuthenticationManager authenticationManager) throws Exception{
-        OAuth2LoginFilter oAuth2LoginFilter = new OAuth2LoginFilter("/oauth2/authorization" );
+        OAuth2LoginFilter oAuth2LoginFilter = new OAuth2LoginFilter("/api/login" );
         oAuth2LoginFilter.setAuthenticationManager(authenticationManager);
         return oAuth2LoginFilter;
     }

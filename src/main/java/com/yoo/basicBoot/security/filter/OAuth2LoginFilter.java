@@ -2,6 +2,7 @@ package com.yoo.basicBoot.security.filter;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -13,6 +14,7 @@ import java.io.IOException;
 
 /**
  * <p>OAuth 로그인 성공 시 사용될 Class<p/>
+ * <p>추상 클래스인 AbstractAuthenticationProcessingFilter를 사용한다.<p/>
  * <p>SecurityConfig에서 Filter 순서를 지정해줌<p/>
  * <p>
  *     <strong>
@@ -36,6 +38,8 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter {
 
         if(email == null) throw new BadCredentialsException("email can not be null");
 
-        return null;
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken("edel1@naver.com","111");
+
+        return super.getAuthenticationManager().authenticate(authToken);
     }
 }
