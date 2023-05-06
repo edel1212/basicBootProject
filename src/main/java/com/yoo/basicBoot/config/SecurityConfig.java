@@ -25,12 +25,6 @@ public class SecurityConfig {
     @Autowired
     private MemberDetailService memberDetailsService;
 
-    public OAuth2LoginFilter oAuth2LoginFilter(AuthenticationManager authenticationManager) throws Exception{
-        OAuth2LoginFilter oAuth2LoginFilter = new OAuth2LoginFilter("/api/login" );
-        oAuth2LoginFilter.setAuthenticationManager(authenticationManager);
-        return oAuth2LoginFilter;
-    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         log.info("Security Config PasswordEncoder!");
@@ -62,10 +56,6 @@ public class SecurityConfig {
 
         // OAuth2 login
         httpSecurity.oauth2Login();
-
-        // 로그인 필터 OAuth일 경우 감지를 위함
-        httpSecurity.addFilterBefore(oAuth2LoginFilter(authenticationManager)
-                ,UsernamePasswordAuthenticationFilter.class);
 
         // 로그아웃
         httpSecurity.logout();
