@@ -1,6 +1,6 @@
 package com.yoo.basicBoot.security.service;
 
-import com.yoo.basicBoot.dto.user.MemberAuthDTO;
+import com.yoo.basicBoot.security.dto.MemberAuthDTO;
 import com.yoo.basicBoot.entity.user.Member;
 import com.yoo.basicBoot.repository.user.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 @Service
 @Log4j2

@@ -1,7 +1,6 @@
 package com.yoo.basicBoot.service;
 
 import com.yoo.basicBoot.common.Roles;
-import com.yoo.basicBoot.dto.user.MemberAuthDTO;
 import com.yoo.basicBoot.dto.user.MemberDTO;
 import com.yoo.basicBoot.entity.user.Member;
 import com.yoo.basicBoot.service.user.MemberService;

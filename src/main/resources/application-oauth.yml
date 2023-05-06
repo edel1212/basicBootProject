@@ -1,0 +1,12 @@
+######################
+# OAuth2 setting #
+######################
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-secret: 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
+            client-id: 890322889551-jdqa4245m40230518go62paujpdmtp91.apps.googleusercontent.com
+            scope: email
