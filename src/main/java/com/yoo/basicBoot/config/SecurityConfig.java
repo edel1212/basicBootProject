@@ -26,7 +26,7 @@ public class SecurityConfig {
     private MemberDetailService memberDetailsService;
 
     public OAuth2LoginFilter oAuth2LoginFilter(AuthenticationManager authenticationManager) throws Exception{
-        OAuth2LoginFilter oAuth2LoginFilter = new OAuth2LoginFilter("/oauth2/authorization");
+        OAuth2LoginFilter oAuth2LoginFilter = new OAuth2LoginFilter("/oauth2/authorization" );
         oAuth2LoginFilter.setAuthenticationManager(authenticationManager);
         return oAuth2LoginFilter;
     }
@@ -50,12 +50,12 @@ public class SecurityConfig {
         // 앞서 생성한 AuthenticationManager 주입
         httpSecurity.authenticationManager(authenticationManager);
 
-//        httpSecurity
-//                .formLogin()                                // 로그인 페이지 지정s
-//                .loginPage("/user/login")                   // login URL
-//                .loginProcessingUrl("/user/login")          // Action URI
-//                .successHandler(new AuthSuccessHandler())   // CustomSuccess Handler
-//                .failureHandler(new AuthFailureHandler());
+        httpSecurity
+                .formLogin()                                // 로그인 페이지 지정s
+                .loginPage("/user/login")                   // login URL
+                .loginProcessingUrl("/user/login")          // Action URI
+                .successHandler(new AuthSuccessHandler())   // CustomSuccess Handler
+                .failureHandler(new AuthFailureHandler());
 
         // remember me
         httpSecurity.rememberMe().tokenValiditySeconds(60*60*24*7);
@@ -63,9 +63,9 @@ public class SecurityConfig {
         // OAuth2 login
         httpSecurity.oauth2Login();
 
-
-//        httpSecurity.addFilterBefore(oAuth2LoginFilter(authenticationManager)
-//                ,UsernamePasswordAuthenticationFilter.class);
+        // 로그인 필터 OAuth일 경우 감지를 위함
+        httpSecurity.addFilterBefore(oAuth2LoginFilter(authenticationManager)
+                ,UsernamePasswordAuthenticationFilter.class);
 
         // 로그아웃
         httpSecurity.logout();
