@@ -1,6 +1,5 @@
 package com.yoo.basicBoot.config;
 
-import com.yoo.basicBoot.security.filter.OAuth2LoginFilter;
 import com.yoo.basicBoot.security.handler.AuthFailureHandler;
 import com.yoo.basicBoot.security.handler.AuthSuccessHandler;
 import com.yoo.basicBoot.security.service.MemberDetailService;
@@ -15,7 +14,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @Log4j2
