@@ -4,18 +4,19 @@ import com.yoo.basicBoot.dto.movie.MovieDTO;
 import com.yoo.basicBoot.dto.movie.MoviePageRequestDTO;
 import com.yoo.basicBoot.dto.movie.MoviePageResultDTO;
 import com.yoo.basicBoot.entity.movie.Movie;
+import com.yoo.basicBoot.entity.user.Member;
 import com.yoo.basicBoot.repository.movie.MovieRepository;
+import com.yoo.basicBoot.repository.user.MemberRepository;
+import com.yoo.basicBoot.security.dto.MemberAuthDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service
@@ -25,8 +26,12 @@ public class MovieServiceImpl implements MovieService{
 
     private final MovieRepository movieRepository;
 
+    private final MemberRepository memberRepository;
+
     @Override
-    public Long insertMovie(MovieDTO movieDTO) {
+    public Long insertMovie(MovieDTO movieDTO, MemberAuthDTO memberAuthDTO) {
+        Optional<Member> member = memberRepository.findById(memberAuthDTO.getEmail());
+        movieDTO.setEmail(memberAuthDTO.getEmail());
         Movie movie = this.dtoToEntity(movieDTO);
         movieRepository.save(movie);
         return movie.getMno();
@@ -59,6 +64,7 @@ public class MovieServiceImpl implements MovieService{
     }
 
     @Override
+    @Transactional
     public MovieDTO getMovieDetail(Long mno) {
         return this.entityToDto(movieRepository.findById(mno).get());
     }

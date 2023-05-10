@@ -1,5 +1,6 @@
 package com.yoo.basicBoot.dto.movie;
 
+import com.yoo.basicBoot.entity.user.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,6 +25,8 @@ public class MovieDTO {
     private String genre          ;// 장르변환값
     private String comment        ;// 코멘트
     private int replyCnt          ;// 댓글 개수
+
+    private String email         ;// 회원
 
     //BaseEntity에 추가된 변수
     private LocalDateTime regDate;

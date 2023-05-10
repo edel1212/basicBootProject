@@ -1,6 +1,7 @@
 package com.yoo.basicBoot.entity.movie;
 
 import com.yoo.basicBoot.entity.BaseEntity;
+import com.yoo.basicBoot.entity.user.Member;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,8 +25,12 @@ public class Movie extends BaseEntity {
     private String backdropPath  ;// 배경이미지
     private String title         ;// 제목
     private String releaseDate   ;// 개봉일
-    private long id              ;// ID
+    private long id              ;// 영화 ID
     private String genre         ;// 장르변환값
     @Column(length = 2_000)
     private String comment       ;// 코멘트
+
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member member        ;// 회원
 }

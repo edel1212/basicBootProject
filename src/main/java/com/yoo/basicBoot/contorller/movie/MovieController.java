@@ -3,6 +3,7 @@ package com.yoo.basicBoot.contorller.movie;
 import com.yoo.basicBoot.dto.movie.MovieDTO;
 import com.yoo.basicBoot.dto.movie.MoviePageRequestDTO;
 import com.yoo.basicBoot.dto.movie.MoviePageResultDTO;
+import com.yoo.basicBoot.security.dto.MemberAuthDTO;
 import com.yoo.basicBoot.service.movie.MovieService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,14 +36,10 @@ public class MovieController {
 
     @PostMapping("/register")
     @ResponseBody
-    public ResponseEntity<Long> insertMovie(@RequestBody MovieDTO movieDTO){
-        log.info(movieDTO);
+    public ResponseEntity<Long> insertMovie(@RequestBody MovieDTO movieDTO, @AuthenticationPrincipal MemberAuthDTO memberAuthDTO){
+        if(movieDTO.getMno() != null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(0L);
 
-        if(movieDTO.getMno() != null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(0L);
-        }
-
-        long mno = movieService.insertMovie(movieDTO);
+        long mno = movieService.insertMovie(movieDTO, memberAuthDTO);
 
         return ResponseEntity.ok(mno);
     }

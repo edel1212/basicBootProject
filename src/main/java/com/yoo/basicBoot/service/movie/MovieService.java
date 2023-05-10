@@ -4,12 +4,14 @@ import com.yoo.basicBoot.dto.movie.MovieDTO;
 import com.yoo.basicBoot.dto.movie.MoviePageRequestDTO;
 import com.yoo.basicBoot.dto.movie.MoviePageResultDTO;
 import com.yoo.basicBoot.entity.movie.Movie;
+import com.yoo.basicBoot.entity.user.Member;
+import com.yoo.basicBoot.security.dto.MemberAuthDTO;
 
 import java.util.List;
 
 public interface MovieService {
     //등록
-    Long insertMovie(MovieDTO movieDTO);
+    Long insertMovie(MovieDTO movieDTO, MemberAuthDTO memberAuthDTO);
 
     //목록
     MoviePageResultDTO<MovieDTO, Object[]> getMovieList(MoviePageRequestDTO moviePageRequestDTO);
@@ -37,6 +39,7 @@ public interface MovieService {
                 .id(movieDTO.getId())
                 .popularity(movieDTO.getPopularity())
                 .posterPath(movieDTO.getPosterPath())
+                .member(Member.builder().email(movieDTO.getEmail()).build())
                 .build();
     }
 
@@ -60,6 +63,7 @@ public interface MovieService {
                 .id(movie.getId())
                 .popularity(movie.getPopularity())
                 .posterPath(movie.getPosterPath())
+                .email(movie.getMember().getEmail())
                 .modDate(movie.getModDate())
                 .regDate(movie.getRegDate())
                 .build();
