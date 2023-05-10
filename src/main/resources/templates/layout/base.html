@@ -154,7 +154,7 @@
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-<script src="/assets/js/isotope.min.js"></script>
+<!-- <script src="/assets/js/isotope.min.js"></script> -->
 <script src="/assets/js/owl-carousel.js"></script>
 <script src="/assets/js/tabs.js"></script>
 <script src="/assets/js/popup.js"></script>
@@ -173,6 +173,18 @@
       clearInterval(bannerTimer);
       bannerTimer = setInterval(bannerSwitcher, 5000)
     });
+
+    document.querySelector(".menu-trigger").addEventListener("click",()=>{
+      if(document.querySelector(".nav").style.display == "block"){
+          document.querySelector(".nav").style.display = "none";
+          $('.filters ul li').removeClass('active');
+        } else{
+          document.querySelector(".nav").style.display = "block";
+          $('.filters ul li').addClass('active');
+        }
+    })
+
+          
   </script>
 
 </body>

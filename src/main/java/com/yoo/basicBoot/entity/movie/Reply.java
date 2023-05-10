@@ -1,6 +1,7 @@
 package com.yoo.basicBoot.entity.movie;
 
 import com.yoo.basicBoot.entity.BaseEntity;
+import com.yoo.basicBoot.entity.user.Member;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,7 +20,9 @@ public class Reply extends BaseEntity {
 
     private String text;
 
-    private String replier;
+    @ManyToOne( fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private Member member;
 
     @ManyToOne
     @ToString.Exclude

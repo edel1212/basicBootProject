@@ -17,7 +17,11 @@ public class ReplyDTO {
     private Long rno           ;// 시퀀스
     private Long mno           ;// 영화번호
     private String text        ;// 댓글
-    private String replier     ;// 작성자
+    private String replierId    ;// 작성자ID
+
+    private String replier      ;// 이름
+
+    private boolean identityFlag;// 본인 확인용
 
     private LocalDateTime regDate;
     private LocalDateTime modDate;

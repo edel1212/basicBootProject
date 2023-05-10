@@ -18,11 +18,12 @@ type SearchParam = {
 }
 
 type ReplyObject = {
-    rno?      :number;    // 시퀀스
-    mno       :number;    // 영화번호
-    text      :string;    // 댓글
-    replier   :string;    // 작성자
-    mod_date? :string     // 수정일자
+    rno?      :number;          // 시퀀스
+    mno       :number;          // 영화번호
+    text      :string;          // 댓글
+    replier?  :string;          // 작성자
+    mod_date?      :string      // 수정일자
+    identity_flag? : boolean    // 본인 여부
 }
 
 // 영화 목록
@@ -343,24 +344,27 @@ class Reply{
         let HTMLCode = "";
         for(let item of movieDetailInfo){
             HTMLCode += `<div class="replies">
-
-                            <div class="replyMainConent">
-                                <div class="infoImg">
-                                    <span style="width:50px;height: 50px;background-color: rgb(113, 221, 182);display: block;border-radius: 50%;"></span>
-                                </div>
-
+                        <div class="replyMainConent">
+                            <div class="infoImg">
+                                <span style="width:50px;height: 50px;background-color: rgb(113, 221, 182);display: block;border-radius: 50%;"></span>
+                            </div>
+                            <div class="replyInfoWrap">
                                 <div class="replyInfo">
-                                    <strong>${item.replier}</strong>
-                                    <p class="replyText">${item.text}</p>
+                                <div>
+                                    <strong>${item.replier}</strong> <span>${item.mod_date}</span>
                                 </div>
+                                <div>`
+            if(item.identity_flag){
+                HTMLCode +=     `<button data-mno="${item.mno}" data-rno="${item.rno}" class="replyDelBtn">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                    </button>`
+            }//if    
+            HTMLCode +=         `</div>
+                                </div>  
+                                <p class="replyText">${item.text}</p>
                             </div>
-                            
-                            <div class="replySubContent">
-                                <span>${item.mod_date}</span>
-                                <div><button data-mno="${item.mno}" data-rno="${item.rno}" class="replyDelBtn">삭제</button></div> 
-                            </div>
-                                
-                        </div> `;            
+                        </div>                        
+                    </div>`;            
         }//for
         replySection.innerHTML = HTMLCode;
     }
@@ -374,7 +378,6 @@ class Reply{
         }//if
         const replyObject:ReplyObject = {
             mno : Number(movieDetailInfo.mno),
-            replier : "회원가입 기능 추가후 수정",
             text : replyText
         }
         fetch(`/movie/replies`,{
@@ -396,9 +399,9 @@ class Reply{
     // 댓글 삭제
     private deleteReply = (event: Event):void=>{
         const target = event.target;
-        if( !(target instanceof HTMLElement && target.classList.contains("replyDelBtn"))) return;
-        const rno = target.dataset.rno;
-        const mno = target.dataset.mno || "" ;
+        if( !(target instanceof HTMLElement && target.parentElement?.classList.contains("replyDelBtn"))) return;
+        const rno = target.parentElement.dataset.rno;
+        const mno = target.parentElement.dataset.mno || "" ;
         fetch(`/movie/replies/${rno}`,{
             method : "DELETE"
         })

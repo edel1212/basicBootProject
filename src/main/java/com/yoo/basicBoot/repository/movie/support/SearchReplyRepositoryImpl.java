@@ -1,11 +1,13 @@
 package com.yoo.basicBoot.repository.movie.support;
 
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import com.yoo.basicBoot.entity.movie.QReply;
 import com.yoo.basicBoot.entity.movie.Reply;
+import com.yoo.basicBoot.entity.user.QMember;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.util.List;
@@ -17,8 +19,11 @@ public class SearchReplyRepositoryImpl extends QuerydslRepositorySupport impleme
     public List<Reply> getReplyList(Long mno) {
 
         QReply qReply = QReply.reply;
+        QMember qMember = QMember.member;
 
         JPQLQuery<Reply> jpqlQuery = from(qReply);
+
+        jpqlQuery.leftJoin(qReply.member, qMember).fetchJoin();
 
         jpqlQuery.select(qReply);
 

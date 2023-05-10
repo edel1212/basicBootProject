@@ -30,10 +30,11 @@ public class MovieController {
     public void movieList(){}
 
 
-    @Secured({"ROLE_USER","ROLE_MANAGER","ROLE_ADMIN"})
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/register")
     public void movieRegister(){}
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/register")
     @ResponseBody
     public ResponseEntity<Long> insertMovie(@RequestBody MovieDTO movieDTO, @AuthenticationPrincipal MemberAuthDTO memberAuthDTO){

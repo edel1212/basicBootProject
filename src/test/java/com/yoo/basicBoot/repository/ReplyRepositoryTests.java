@@ -21,7 +21,6 @@ public class ReplyRepositoryTests {
     public void insertReply(){
         IntStream.rangeClosed(1, 20).forEach(item->{
             Reply reply = Reply.builder()
-                    .replier("edel-"+item)
                     .text(item+"번째 댓글입니다!!")
                     .movie(Movie.builder().mno(205L).build())
                     .build();
