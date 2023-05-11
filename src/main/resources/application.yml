@@ -40,6 +40,20 @@ spring:
         min-idle: 2
     port: 6379
     host: 127.0.0.1
+  ############################
+  ##Mail Setting
+  ############################
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    default:
+      encoding: UTF-8
+    username: dbwjdghman93@gmail.com
+    password: jpzytlrpwmrfwfic
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
 ##########################################################
 # Detail Show JPA Query                                  #
 # have to setting - Dev [true] - Prod [false] setting    #

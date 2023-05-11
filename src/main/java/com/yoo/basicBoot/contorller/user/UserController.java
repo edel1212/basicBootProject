@@ -5,6 +5,8 @@ import com.yoo.basicBoot.dto.user.MemberDTO;
 import com.yoo.basicBoot.service.user.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final MemberService memberService;
+
+    private final JavaMailSender javaMailSender;
 
     @GetMapping("/login")
     public void loginPage(){}
@@ -42,4 +46,17 @@ public class UserController {
         }
         return ResponseEntity.ok(resultSate);
     }
+
+    @PostMapping("/send")
+    @ResponseBody
+    public ResponseEntity<Boolean> send(){
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+
+        simpleMailMessage.setTo("edel1212@naver.com");
+        simpleMailMessage.setSubject("테스트입니다.");
+        simpleMailMessage.setText("가나다라 마바사입니다.");
+        javaMailSender.send(simpleMailMessage);
+        return ResponseEntity.ok(true);
+    }
+
 }
