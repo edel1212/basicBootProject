@@ -19,6 +19,11 @@ public interface MemberService {
      * */
     Long findMemberByEmail(String email);
 
+    /**
+     * 인증 링크 이메일 발송
+     * @param memberDTO
+     * */
+    boolean sendVerificationMail(MemberDTO memberDTO);
 
     default MemberDTO entityToDTO(Member member){
         return MemberDTO.builder()

@@ -23,6 +23,8 @@ public class MemberDTO {
 
     private String role;
 
+    private String state;
+
     //BaseEntity에 추가된 변수
     private LocalDateTime regDate;
     private LocalDateTime modDate;

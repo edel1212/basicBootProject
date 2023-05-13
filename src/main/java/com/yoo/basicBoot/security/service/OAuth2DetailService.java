@@ -1,5 +1,7 @@
 package com.yoo.basicBoot.security.service;
 
+import com.yoo.basicBoot.common.MemberState;
+import com.yoo.basicBoot.common.Roles;
 import com.yoo.basicBoot.dto.user.MemberDTO;
 import com.yoo.basicBoot.entity.user.Member;
 import com.yoo.basicBoot.repository.user.MemberRepository;
@@ -74,7 +76,8 @@ public class OAuth2DetailService extends DefaultOAuth2UserService {
                 .name(email)
                 .password(passwordEncoder.encode("111"))
                 .fromSocial(true)
-                .role("USER")
+                .role(Roles.USER.toString())
+                .state(MemberState.S.toString())
                 .build();
         memberRepository.save(member);
         return member;

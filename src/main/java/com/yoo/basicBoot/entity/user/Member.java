@@ -26,6 +26,9 @@ public class Member extends BaseEntity {
     private boolean fromSocial;
 
     @Column(nullable = false)
+    private String state;
+
+    @Column(nullable = false)
     private String role;
 
 }
