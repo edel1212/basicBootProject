@@ -34,7 +34,7 @@ public class MemberDetailService implements UserDetailsService {
             throw new UsernameNotFoundException("userNotFound");
         }  else if(MemberState.E.toString().equals(findMember.getState())){
             throw new BadCredentialsException("uuidCheck");
-        }  else if(!MemberState.P.toString().equals(findMember.getState())){
+        }  else if(MemberState.P.toString().equals(findMember.getState())){
             throw new BadCredentialsException("pwCount");
         }
 

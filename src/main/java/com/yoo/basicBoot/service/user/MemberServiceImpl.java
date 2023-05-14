@@ -88,7 +88,7 @@ public class MemberServiceImpl implements MemberService{
 
         String uuidData = String.valueOf(redisUtil.getData(email));
 
-        if(uuid.equals(uuidData)) return false;
+        if(!uuid.equals(uuidData)) return false;
 
         Member member = memberRepository.findByEmail(email,false);
         MemberDTO memberDTO = this.entityToDTO(member);
