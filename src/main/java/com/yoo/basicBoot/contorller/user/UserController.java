@@ -54,12 +54,23 @@ public class UserController {
         return ResponseEntity.ok(resultSate);
     }
 
-    @GetMapping("/check")
-    public String send(String email, String uuid, RedirectAttributes redirectAttributes){
+    @PutMapping("/auth")
+    @ResponseBody
+    public ResponseEntity<ResultState> send(@RequestBody MemberDTO memberDTO){
+        String email = memberDTO.getEmail();
+        String uuid = memberDTO.getUuid();
         boolean result = memberService.checkVerification(email,uuid);
-        String msg = result ? "인증에 성공하였습니다." : "기간이 만료된 인증번호입니다. 재전송 해드리겠습니다.";
-        redirectAttributes.addFlashAttribute("msg",msg);
-        return "redirect:/user/login";
+        ResultState resultState = ResultState.builder().build();
+        if(!result){
+            resultState.setStateCd(999);
+            resultState.setStateMsg("기간이 만료된 인증번호입니다. 다시 전송해드렸습니다.");
+            boolean sendVerificationMail =  memberService.sendVerificationMail(memberDTO);
+            if(!sendVerificationMail) resultState.setStateMsg("잘못된 접근입니다 다시 확인해주세요.");
+            return ResponseEntity.ok(resultState);
+        }
+        resultState.setStateCd(200);
+        resultState.setStateMsg("인증에 성공하였습니다. 로그인을 해주세요.");
+        return ResponseEntity.ok(resultState);
     }
 
 }

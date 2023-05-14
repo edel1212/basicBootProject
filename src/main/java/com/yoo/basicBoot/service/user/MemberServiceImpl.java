@@ -59,6 +59,10 @@ public class MemberServiceImpl implements MemberService{
 
         if(memberDTO == null || memberDTO.getEmail() == null) return false;
 
+        // 회원 유무 검사 및 이메일 인증 결과 체크
+        Member member = memberRepository.findByEmail(memberDTO.getEmail(),false);
+        if(member == null || !MemberState.E.toString().equals(member.getState())) return false;
+
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
 
         String uuid = UUID.randomUUID().toString();
@@ -68,7 +72,7 @@ public class MemberServiceImpl implements MemberService{
         simpleMailMessage.setSubject("회원가입을 원하시면 해당 링크를 눌러주세요.");
         // 내용
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("http://localhost:8080/user/check");
+        stringBuilder.append("http://localhost:8080/user/login");
         stringBuilder.append("?email=");
         stringBuilder.append(memberDTO.getEmail());
         stringBuilder.append("&uuid=");
@@ -76,7 +80,7 @@ public class MemberServiceImpl implements MemberService{
         simpleMailMessage.setText(stringBuilder.toString());
         // 전송
         javaMailSender.send(simpleMailMessage);
-        redisUtil.setDataExpire("edel1212@naver.com", uuid, 30);
+        redisUtil.setDataExpire(memberDTO.getEmail(), uuid, 60);
 
         return true;
     }
@@ -91,6 +95,7 @@ public class MemberServiceImpl implements MemberService{
         if(!uuid.equals(uuidData)) return false;
 
         Member member = memberRepository.findByEmail(email,false);
+
         MemberDTO memberDTO = this.entityToDTO(member);
         memberDTO.setState(MemberState.S.toString());
         memberRepository.save(this.dtoToEntity(memberDTO));

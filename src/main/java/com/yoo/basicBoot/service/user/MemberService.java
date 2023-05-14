@@ -22,12 +22,14 @@ public interface MemberService {
     /**
      * 인증 링크 이메일 발송
      * @param memberDTO
+     * @return boolean
      * */
     boolean sendVerificationMail(MemberDTO memberDTO);
 
     /**
      * 인증 링크 이메일 발송
      * @param email, uuid
+     * @return boolean
      * */
     boolean checkVerification(String email, String uuid);
 

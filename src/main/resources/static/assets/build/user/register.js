@@ -41,6 +41,11 @@ class Register {
                 password: this.password.value,
                 name: this.name.value
             };
+            // 로딩화면
+            const loading = document.querySelector("#js-preloader");
+            if (loading instanceof HTMLElement) {
+                loading.className = "js-preloader";
+            }
             fetch("/user", {
                 method: "POST",
                 headers: {
@@ -59,6 +64,10 @@ class Register {
                 }
             }).catch(error => {
                 console.log(error);
+            }).finally(() => {
+                if (loading instanceof HTMLElement) {
+                    loading.className = "js-preloader loaded";
+                }
             });
         };
         // 이메일 Validation Check

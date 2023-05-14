@@ -25,6 +25,8 @@ public class MemberDTO {
 
     private String state;
 
+    private String uuid;
+
     //BaseEntity에 추가된 변수
     private LocalDateTime regDate;
     private LocalDateTime modDate;

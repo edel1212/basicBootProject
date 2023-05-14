@@ -44,11 +44,52 @@ class Login {
                 console.log(error);
             });
         };
+        // 이메일 인증
+        this.emailAuthentication = () => {
+            // 로딩 화면
+            const loading = document.querySelector("#js-preloader");
+            if (loading instanceof HTMLElement) {
+                loading.className = "js-preloader";
+                loading.style.visibility = "visible";
+                loading.style.opacity = "1";
+                loading.style.pointerEvents = "auto";
+            }
+            fetch("/user/auth", {
+                method: "put",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: this.checkEmail,
+                    uuid: this.checkUUID
+                })
+            }).then(res => res.json())
+                .then(result => {
+                alert(`${result.state_msg}`);
+            }).catch(error => {
+                console.log(error);
+            }).finally(() => {
+                if (loading instanceof HTMLElement) {
+                    loading.className = "js-preloader loaded";
+                    loading.style.visibility = "none";
+                    loading.style.opacity = "0";
+                    loading.style.pointerEvents = "none";
+                }
+            });
+        };
         // 일반 로그인 버트
         this.loginBtn = document.querySelector("#loginBtn");
         this.loginBtn?.addEventListener("click", this.loginEvent);
         // Google 로그인 버튼
         this.googleBtn = document.querySelector("#googleBtn");
+        // 이메일 인증 값
+        const urlParams = new URL(location.href).searchParams;
+        this.checkEmail = urlParams.get('email');
+        this.checkUUID = urlParams.get('uuid');
+        // 이메일 인증으로 들어올 경우
+        if (this.checkEmail && this.checkUUID) {
+            this.emailAuthentication();
+        } //if
     }
 }
 // init
