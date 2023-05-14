@@ -45,6 +45,7 @@ public class MemberServiceImpl implements MemberService{
         memberDTO.setState(MemberState.E.toString());
         Member member = this.dtoToEntity(memberDTO);
         memberRepository.save(member);
+        sendVerificationMail(memberDTO);
         return member.getEmail();
     }
 
@@ -67,7 +68,7 @@ public class MemberServiceImpl implements MemberService{
         simpleMailMessage.setSubject("회원가입을 원하시면 해당 링크를 눌러주세요.");
         // 내용
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("http://localhost:8080/user/check/");
+        stringBuilder.append("http://localhost:8080/user/check");
         stringBuilder.append("?email=");
         stringBuilder.append(memberDTO.getEmail());
         stringBuilder.append("&uuid=");
@@ -76,6 +77,23 @@ public class MemberServiceImpl implements MemberService{
         // 전송
         javaMailSender.send(simpleMailMessage);
         redisUtil.setDataExpire("edel1212@naver.com", uuid, 30);
+
+        return true;
+    }
+
+    @Override
+    public boolean checkVerification(String email, String uuid) {
+
+        if(email == null || uuid == null) return false;
+
+        String uuidData = String.valueOf(redisUtil.getData(email));
+
+        if(uuid.equals(uuidData)) return false;
+
+        Member member = memberRepository.findByEmail(email,false);
+        MemberDTO memberDTO = this.entityToDTO(member);
+        memberDTO.setState(MemberState.S.toString());
+        memberRepository.save(this.dtoToEntity(memberDTO));
 
         return true;
     }

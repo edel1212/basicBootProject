@@ -25,6 +25,12 @@ public interface MemberService {
      * */
     boolean sendVerificationMail(MemberDTO memberDTO);
 
+    /**
+     * 인증 링크 이메일 발송
+     * @param email, uuid
+     * */
+    boolean checkVerification(String email, String uuid);
+
     default MemberDTO entityToDTO(Member member){
         return MemberDTO.builder()
                 .email(member.getEmail())
@@ -32,6 +38,7 @@ public interface MemberService {
                 .fromSocial(member.isFromSocial())
                 .name(member.getName())
                 .role(member.getRole())
+                .state(member.getState())
                 .modDate(member.getModDate())
                 .regDate(member.getRegDate())
                 .build();
@@ -43,6 +50,7 @@ public interface MemberService {
                 .password(memberDTO.getPassword())
                 .fromSocial(memberDTO.isFromSocial())
                 .name(memberDTO.getName())
+                .state(memberDTO.getState())
                 .role(memberDTO.getRole())
                 .build();
     }

@@ -45,14 +45,14 @@ public class UserController {
         return ResponseEntity.ok(resultSate);
     }
 
-    @PostMapping("/send")
-    @ResponseBody
-    public ResponseEntity<ResultState> send(@RequestBody MemberDTO memberDTO){
-        memberService.sendVerificationMail(memberDTO);
-        ResultState resultState = ResultState.builder()
-                .stateCd(200)
-                .stateMsg("success").build();
-        return ResponseEntity.ok(resultState);
+    @GetMapping("/check")
+    public String send(String email, String uuid){
+        boolean result = memberService.checkVerification(email,uuid);
+        if(result){
+            return "redirect:/";
+        } else{
+            return "redirect:/user/login";
+        }
     }
 
 }

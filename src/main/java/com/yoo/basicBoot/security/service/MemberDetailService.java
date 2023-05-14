@@ -29,7 +29,7 @@ public class MemberDetailService implements UserDetailsService {
         // 해당 로직은 기본 로그인 시 에 접근될 로직이므로 소셜은 무조건 false 이다.
         Member findMember = memberRepository.findByEmail(username, false);
 
-        if(findMember == null || !MemberState.S.equals(findMember.getState()) )  throw new UsernameNotFoundException("User No Found!");
+        if(findMember == null || !MemberState.S.toString().equals(findMember.getState()) )  throw new UsernameNotFoundException("User No Found!");
 
         MemberAuthDTO memberAuthDTO = new MemberAuthDTO(
                 findMember.getEmail()
