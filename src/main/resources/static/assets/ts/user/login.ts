@@ -53,7 +53,7 @@ class Login{
             if(result.stateCd === 200){
                 location.href = "/";
             } else {
-                alert("아이디 혹은 비밀번호를 체크 해주세요");
+                alert(`${result.stateMsg}`);
             }// if - else
         }).catch(error =>{
             console.log(error);

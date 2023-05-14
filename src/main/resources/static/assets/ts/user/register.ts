@@ -89,6 +89,12 @@ class Register{
             }).then(res=>res.json())
             .then(result =>{
                 console.log(result);
+                if(result.state_cd === 200){
+                    alert(`5분 안에 ${result.state_msg}로 전달된 인증 이메일 링크를 확인해 주세요.`);
+                    location.href = "/user/login";
+                } else{
+                    alert("잘못된 접근입니다. 관리자에게 문의해주세요");
+                }
             }).catch(error =>{
                 console.log(error);
             })
